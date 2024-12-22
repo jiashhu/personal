@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>L2-estimates for the evolving surface finite element method &mdash; Literature 0.1 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../_static/documentation_options.js?v=7c91f8fd"></script>
+        <script src="../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script src="../_static/translations.js?v=beaddf03"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Literature
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Literature</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">L2-estimates for the evolving surface finite element method</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/SPDE/DE2013MC.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="L2-estimates-for-the-evolving-surface-finite-element-method">
+<h1>L2-estimates for the evolving surface finite element method<a class="headerlink" href="#L2-estimates-for-the-evolving-surface-finite-element-method" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Authors: Dziuk &amp; Elliott</p></li>
+</ul>
+<section id="Main-contribution">
+<h2>Main contribution<a class="headerlink" href="#Main-contribution" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>optimal and uniform in time <span class="math notranslate nohighlight">\(L^2\)</span> bound for linear fem for advection and diffusion equation on a moving surface</p></li>
+</ul>
+</section>
+<section id="Main-Existing-results">
+<h2>Main Existing results<a class="headerlink" href="#Main-Existing-results" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(H^1\)</span> optimal error in [9], <span class="math notranslate nohighlight">\(L^\infty L^2\)</span> and <span class="math notranslate nohighlight">\(L^2H^1\)</span> in <span class="math notranslate nohighlight">\(\mathcal{O}(h)\)</span>. <span class="math">\begin{align}
+\sup _{t \in(0, T)}\left\|u(\cdot, t)-u_h(\cdot, t)\right\|_{L^2(\Gamma(t))}^2+\int_0^T\left\|\nabla_{\Gamma}\left(u(\cdot, t)-u_h(\cdot, t)\right)\right\|_{L^2(\Gamma(t))}^2 d t \leq c h^2
+\end{align}</span></p></li>
+</ul>
+</section>
+<section id="Method">
+<h2>Method<a class="headerlink" href="#Method" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Weak solution <span class="math">\begin{align}
+\int_{\Gamma(t)} \partial^{\bullet} u \varphi+\int_{\Gamma(t)} u \varphi \nabla_{\Gamma} \cdot v+\int_{\Gamma(t)} \mathcal{A} \nabla_{\Gamma} u \cdot \nabla_{\Gamma} \varphi=0
+\end{align}</span> for <span class="math notranslate nohighlight">\(\varphi(\cdot, t) \in H^1(\Gamma(t))\)</span> where <span class="math notranslate nohighlight">\(\mathcal{A}\)</span> is positive definite on the tangential space <span class="math">\begin{align}
+\mathcal{A} \xi \cdot \xi \geq c_0|\xi|^2 \quad \forall \xi \in \mathbb{R}^{n+1}, \xi \cdot \nu=0
+\end{align}</span></p></li>
+<li><p>For initial data <span class="math notranslate nohighlight">\(u(0)\in H^1\)</span>, and <span class="math notranslate nohighlight">\(v\in W^{1,\infty}(\mathcal{G}_T)\)</span>, the existence and uniqueness of the above weak solution is proved in DE2007IJNA following the Galerkin method. Precisely, proving the bounededness of <span class="math notranslate nohighlight">\(u_N\)</span> in <span class="math notranslate nohighlight">\(H^1\)</span> and taking the weak convergence subsequence.</p></li>
+<li><p>Stability: For initial data <span class="math notranslate nohighlight">\(u(0)\in H^1\)</span>, velocity <span class="math notranslate nohighlight">\(v\in C^1(\mathcal{G}_T)\)</span> <span class="math">\begin{align}
+\begin{aligned}
+& \sup _{(0, T)}\|u\|_{L^2(\Gamma)}^2+\int_0^T\left\|\nabla_{\Gamma} u\right\|_{L^2(\Gamma)}^2 \leq c\left(\mathcal{A}, v, \mathcal{G}_T, T\right)\left\|u_0\right\|_{L^2(\Gamma(0))}^2 \\
+& \int_0^T\left\|\partial^{\bullet} u\right\|_{L^2(\Gamma)}^2+\sup _{(0, T)}\left\|\nabla_{\Gamma} u\right\|_{L^2(\Gamma)}^2 \leq c\left(\mathcal{A}, v, \mathcal{G}_T, T\right)\left\|u_0\right\|_{H^1(\Gamma(0))}^2 \\
+\end{aligned}
+\end{align}</span></p></li>
+</ul>
+<ul class="simple">
+<li><p>Scheme by setting the material derivative onto the test function (Evolving Surface Finite Element Method).</p></li>
+</ul>
+<p>Given <span class="math notranslate nohighlight">\(U_{h 0} \in S_h(0)\)</span> find <span class="math notranslate nohighlight">\(U_h \in S_h^T=\left\{\phi_h\right.\)</span> and <span class="math notranslate nohighlight">\(\left.\partial_h^{\circ} \phi_h \in C^0\left(\mathcal{G}_T^h\right) \mid \phi_h(\cdot, t) \in S_h(t),\ t \in[0, T]\right\}\)</span> such that for all <span class="math notranslate nohighlight">\(\phi_h \in S_h^T\)</span> and <span class="math notranslate nohighlight">\(t \in(0, T]\)</span></p>
+<div class="math notranslate nohighlight">
+\[\frac{d}{d t} m_h\left(U_h, \phi_h\right)+a_h\left(U_h, \phi_h\right)=m_h\left(U_h, \partial_h^{\circ} \phi_h\right), \quad U_h(\cdot, 0)=U_{h 0}\]</div>
+<p>Using the transport property of basis function, it follows that this definition is equivalent to:</p>
+<div class="math notranslate nohighlight">
+\[\frac{d}{d t} m_h\left(U_h, \chi_j\right)+a_h\left(U_h, \chi_j\right)=0 \quad U_h(\cdot, 0)=U_{h 0}\]</div>
+<p>for all <span class="math notranslate nohighlight">\(j=1, \ldots, N\)</span>.</p>
+<p><span class="math">\begin{align}
+& a_h\left(\phi_h, W_h\right)=\int_{\Gamma_h} \mathcal{A}^{-l} \nabla_{\Gamma_h} \phi_h \cdot \nabla_{\Gamma_h} W_h, \\
+& m_h\left(\phi_h, W_h\right)=\int_{\Gamma_h} \phi_h W_h,
+\end{align}</span></p>
+<p>Finite element scheme does not explicitly involve the velocity of the surface, but relies on the poisition of surface at t.</p>
+<p>Then error will be estimated comparing <span class="math">\begin{align}
+\frac{d}{d t} \int_{\Gamma(t)} u \varphi+\int_{\Gamma(t)} \mathcal{A} \nabla_{\Gamma} u \cdot \nabla_{\Gamma} \varphi=\int_{\Gamma(t)} u \partial^{\bullet} \varphi
+\end{align}</span></p>
+<p>Compared with DE2007IJNA, the main difference is the reformulation of the scheme such that the velocity is not explictly involved.</p>
+<p>There are two key points: * To compare the numerical solution with the Ritz projeciton, so as to split the error * material derivative of error of Ritz projection, by defining a lifted velocity on <span class="math notranslate nohighlight">\(\Gamma\)</span> via lifted trajectory</p>
+<p>Definition 4.3. We define a material velocity for <span class="math notranslate nohighlight">\(x=X(t)\)</span> on the surface <span class="math notranslate nohighlight">\(\Gamma_h(t)\)</span> by (4.5) <span class="math notranslate nohighlight">\(\dot{X}(t)=V_h(X(t), t), V_h(x, t):=\sum_{j=1}^N \dot{X}_j(t) \chi_j(x, t)\)</span> for <span class="math notranslate nohighlight">\(x \in S_h(t)\)</span>, and the associated material velocity on <span class="math notranslate nohighlight">\(\Gamma(t)\)</span> by (4.6) <span class="math notranslate nohighlight">\(\quad \dot{Y}(t)=v_h(Y(t), t)=\frac{\partial p}{\partial t}(X(t), t)+V_h(X(t), t) \cdot \nabla p(X(t), t)\)</span> so that for <span class="math notranslate nohighlight">\(x \in \Gamma_h(t)\)</span>, (4.7)
+<span class="math notranslate nohighlight">\(\quad v_h(p(x, t), t)=(P-d \mathcal{H})(x, t) V_h(x, t)-d_t(x, t) \nu(x, t)-d(x, t) \nu_t(x, t)\)</span>, where <span class="math notranslate nohighlight">\(Y(t)=p(X(t), t)\)</span> is defined by <span class="math notranslate nohighlight">\((2.2)\)</span>.</p>
+<section id="Benefit-of-Ritz-Projection">
+<h3>Benefit of Ritz Projection<a class="headerlink" href="#Benefit-of-Ritz-Projection" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>Help to reduce the consistency error</p></li>
+</ul>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, chuya.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
