@@ -43,7 +43,7 @@ jobs:
 
       - name: Push changes
         run: |
-          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/jiashhu/personal.git
+          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.PERSONAL_ACCESS_TOKEN2 }}@github.com/jiashhu/personal.git
           git add docs/
           git commit -m "Update Sphinx docs"
           git push origin main
