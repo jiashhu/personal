@@ -1,0 +1,216 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Solving PDEs with incomplete information &mdash; Literature 0.1 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+
+  
+      <script src="../_static/documentation_options.js?v=7c91f8fd"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Literature
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/DE2013MC.html">L2-estimates for the evolving surface finite element method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/UnfittedFEM.html">Unfitted FEM</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Literature</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Solving PDEs with incomplete information</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/PDERecover/PoissonRe.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Solving-PDEs-with-incomplete-information">
+<h1>Solving PDEs with incomplete information<a class="headerlink" href="#Solving-PDEs-with-incomplete-information" title="Link to this heading">¶</a></h1>
+<ul class="simple">
+<li><p>Peter Binev, Andrea Bonito, Albert Cohen, Wolfgang Dahmen, Ronald Devore and Guergana Petrove</p></li>
+</ul>
+<section id="Formulation-of-problem">
+<h2>Formulation of problem<a class="headerlink" href="#Formulation-of-problem" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Elliptic problem with incomplete boundary conditions</p></li>
+</ul>
+<p><span class="math">\begin{equation*}
+- \Delta u = f,\quad x\in {\Omega}, \quad u = g,\quad, x\in \Gamma = \partial{\Omega}
+\end{equation*}</span> The source term <span class="math notranslate nohighlight">\(f\)</span> is known and <span class="math notranslate nohighlight">\(g\)</span> is unknown and is some function in <span class="math notranslate nohighlight">\(K^B\)</span>, ball of a space that compactly imported in <span class="math notranslate nohighlight">\(H^{\frac12}(\Gamma)\)</span> One typical choice is the unit ball <span class="math notranslate nohighlight">\(U(H^s(\Gamma))\)</span> in <span class="math notranslate nohighlight">\(H^s(\Gamma)\)</span>.</p>
+<section id="Harmonic-recovery">
+<h3>Harmonic recovery<a class="headerlink" href="#Harmonic-recovery" title="Link to this heading">¶</a></h3>
+<p>Introducing the space of harmonic functions <span class="math notranslate nohighlight">\(\mathcal{H}^s({\Omega})\)</span>, which is also the extension of <span class="math notranslate nohighlight">\(H^s(\Gamma)\)</span> by harmonic extension. The norm of <span class="math notranslate nohighlight">\(\mathcal{H}^s({\Omega} )\)</span> is defined by the boundary norm. According to the smoothness of the domain boundary, we have the interpolation <span class="math">\begin{equation*}
+\mathcal{H}^s({\Omega})\subset H^r({\Omega})
+\end{equation*}</span> with <span class="math notranslate nohighlight">\(r=\min\{s+\frac12,r^*\}\)</span></p>
+<ul class="simple">
+<li><p>For smooth domain, <span class="math notranslate nohighlight">\(r^*=\infty\)</span></p></li>
+<li><p>For polygons, <span class="math notranslate nohighlight">\(r^* = 1+ \frac{\pi}{\omega}-\varepsilon\)</span> where <span class="math notranslate nohighlight">\(\omega\)</span> is the largest inner angle.</p></li>
+</ul>
+<p>Example: <span class="math notranslate nohighlight">\(\omega = \frac{\pi}{2}\)</span>, which is convex, then <span class="math notranslate nohighlight">\(r^*\approx 2\)</span></p>
+<p>The task is to find the Chebyshev center in <span class="math notranslate nohighlight">\({H}^1\)</span> which satisfies the observations (in a linear space) <span class="math">\begin{equation*}
+\lambda_j( \phi) = w_j
+\end{equation*}</span> The candidate set is denoted as <span class="math notranslate nohighlight">\(\mathcal{K}_w = \{u\in \mathcal{H}^s: \lambda(u) = w\}\)</span>.</p>
+<p>First in the hilbert space <span class="math notranslate nohighlight">\(\mathcal{H}^s\)</span>, the Chebyshev center coincides with the minimal norm interpolant <span class="math">\begin{equation*}
+u^*(w) = \textrm{argmin} \{ \| v\|_{\mathcal{H}^s}: v\in \mathcal{H}^s, \ \lambda(v) = w\}
+\end{equation*}</span></p>
+<p>Due to the symmetry of <span class="math notranslate nohighlight">\(\mathcal{K}_w\)</span>, its Chebyshev center in <span class="math notranslate nohighlight">\(H^1\)</span> is its geometrical center and the Chebyshev center in <span class="math notranslate nohighlight">\(\mathcal{H}^s\)</span></p>
+<p>Finally, to solve the minimal norm interpolant, we apply the <span class="math notranslate nohighlight">\(L^2\)</span> projection in the Hilbert space, where the finite dimensional space is spanned by the Riesz representers of functionals <span class="math notranslate nohighlight">\(\lambda\)</span></p>
+</section>
+</section>
+<section id="Computation-of-Riesz-representer-in-Harmonic-space">
+<h2>Computation of Riesz representer in Harmonic space<a class="headerlink" href="#Computation-of-Riesz-representer-in-Harmonic-space" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>Exact riesz representer</p></li>
+</ul>
+<p><span class="math">\begin{align*}
+& \phi = E \psi,\\
+& \langle \psi, \eta \rangle_{H^s(\Gamma)} = \lambda(E\eta),\quad \forall \eta\in H^s(\Gamma)
+\end{align*}</span> which means solving boundary representer first and exnteded to the domain</p>
+<ul class="simple">
+<li><p>Finite element setting</p></li>
+</ul>
+<p>Consider a finite element space <span class="math notranslate nohighlight">\(V_h\)</span> associated with a family of meshes <span class="math notranslate nohighlight">\(\mathcal{T}_h\)</span> of <span class="math notranslate nohighlight">\({\Omega}\)</span>. The boundary space <span class="math notranslate nohighlight">\(T_h = T(V_h)\)</span>. Domain space with Dirichlet boundary condition <span class="math notranslate nohighlight">\(W_h = \{v_h\in V_h: T(v_h) = 0\}\)</span>.</p>
+<ul class="simple">
+<li><p>The constrain of <span class="math notranslate nohighlight">\(P_k\)</span> Lagrange element on the boundary belongs to <span class="math notranslate nohighlight">\(H^{\frac32-}(\Gamma)\)</span>. Then <span class="math notranslate nohighlight">\(T_h\subset H^s(\Gamma)\)</span> for <span class="math notranslate nohighlight">\(s&lt;\frac32\)</span>.</p></li>
+<li><p>Numerical Harmonic extension <span class="math notranslate nohighlight">\(E_h: T_h\to V_h\)</span></p></li>
+</ul>
+<p><span class="math">\begin{equation*}
+\int_ {\Omega} \nabla E_h g_h\cdot \nabla v_h = 0,\quad v_h \in W_h
+\end{equation*}</span> * Riesz representer</p>
+<p><span class="math">\begin{align*}
+& \phi_h = E_h \psi_h,\\
+& \langle \psi_h,g_h \rangle_{H^s(\Gamma)} = \lambda(E_h g_h),\quad g_h\in T_h
+\end{align*}</span></p>
+<ul class="simple">
+<li><p>Saddle point formulation</p></li>
+</ul>
+<p>Introduce <span class="math notranslate nohighlight">\(X^s= \{v\in H^1( {\Omega}): v_ \Gamma \in H^s( \Gamma)\}\)</span> (bigger than <span class="math notranslate nohighlight">\(H^1({\Omega})\cap \mathcal{H}^s({\Omega}))\)</span>, equipped with the norm <span class="math">\begin{equation*}
+\| v\|_{X^s({\Omega})} = \left( \| v_ \Gamma\|_{H^s(\Gamma)}^2 + \| \nabla v\|_{L^2({\Omega})}^2\right)^{\frac12}
+\end{equation*}</span> Note that <span class="math notranslate nohighlight">\(\| v\|_{\mathcal{H}^s} = \| v\|_{H^s(\Gamma)}\)</span> controls the <span class="math notranslate nohighlight">\(L^2\)</span> norm</p>
+<p>The saddle point problem formulates as find <span class="math notranslate nohighlight">\((\phi,\pi)\in X^s({\Omega})\times H^1({\Omega})\)</span> such that <span class="math">\begin{align*}
+& a(\phi,v) + b(v,\pi) = \lambda(v),\quad v\in X^s({\Omega})\\
+& b(\phi,z) = 0, z\in H_0^1({\Omega})
+\end{align*}</span> where <span class="math">\begin{align*}
+a(\phi,v) = \langle \phi_ \Gamma, v_ \Gamma \rangle_{H^s(\Gamma)},\quad
+b(v, \pi) = \langle \nabla v, \nabla \pi \rangle_{L^2({\Omega})}
+\end{align*}</span> Testing <span class="math notranslate nohighlight">\(v\in \mathcal{H}^s({\Omega})\)</span> in the first equation leads to <span class="math notranslate nohighlight">\(a( \phi,v) = \lambda(v)\)</span> * Continuity of <span class="math notranslate nohighlight">\(a\)</span> and <span class="math notranslate nohighlight">\(b\)</span>; Coercivity of <span class="math notranslate nohighlight">\(a\)</span> on the null space of <span class="math notranslate nohighlight">\(b\)</span> in <span class="math notranslate nohighlight">\(X^s({\Omega})\)</span>, null space is <span class="math notranslate nohighlight">\(\mathcal{H}^s({\Omega})\)</span></p>
+<p>For <span class="math notranslate nohighlight">\(v\in \mathcal{H}^s({\Omega})\)</span>, one has <span class="math">\begin{equation*}
+\| v\|_{X^s({\Omega})}^s \le \| v_ \Gamma\|_{H^s(\Gamma)}^2 + \| v\|_{H^1}^2 \le (1+C^2) \| v_ \Gamma\|_{H^s(\Gamma)}^2\le (1+C^2)a(v,v)
+\end{equation*}</span> by using the embedding <span class="math notranslate nohighlight">\(H^s(\Gamma)\to H^\frac12(\Gamma)\)</span></p>
+</section>
+<section id="Stability-and-convergence">
+<h2>Stability and convergence<a class="headerlink" href="#Stability-and-convergence" title="Link to this heading">¶</a></h2>
+<ul>
+<li><p>Stability of <span class="math notranslate nohighlight">\(E\)</span> Since <span class="math notranslate nohighlight">\(E\)</span> is to solve the Laplace equation, we obtain the stability <span class="math">\begin{equation*}
+\| Eg\|_{H^1({\Omega})} \lesssim \| g\|_{H^\frac12(\Gamma)}
+\end{equation*}</span></p></li>
+<li><p>Stability of <span class="math notranslate nohighlight">\(E_h\)</span> If there exists uniformly <span class="math notranslate nohighlight">\(H^1\)</span> stable projections <span class="math notranslate nohighlight">\(P_h: H^1({\Omega})\to V_h\)</span> that preserves the homogeneous boundary condition (to apply Poincare inequality and <span class="math notranslate nohighlight">\(\|\nabla E_h g_h\|\le \|\nabla P_h Eg_h\|\)</span>) <span class="math">\begin{equation*}
+P_h(H_0^1({\Omega})) = W_h,\quad \| P_hv\|_{H^1}\le B \| v\|_{H^1}
+\end{equation*}</span> where <span class="math notranslate nohighlight">\(B\)</span> is independent of <span class="math notranslate nohighlight">\(h\)</span>. This guarantees the stability of <span class="math notranslate nohighlight">\(E_h:T_h\to V_h\)</span> <span class="math">\begin{align*}
+\| E_h g_h - P_hEg_h\|_{H^1}\le 2C_P \| P_h Eg_h\|_{H^1}
+\end{align*}</span></p></li>
+<li><p>Error in replacing <span class="math notranslate nohighlight">\(E\)</span> by <span class="math notranslate nohighlight">\(E_h\)</span>. For any <span class="math notranslate nohighlight">\(g_h\in T_h\)</span>, one has <span class="math">\begin{align*}
+\| (E-E_h) g_h\|_{H^1({\Omega})} \le C(r,s, \sigma, {\Omega}) h^{r-1} \| g_h\|_{H^s(\Gamma)}
+\end{align*}</span></p></li>
+<li><p>Regularity of boundary Riesz representer <span class="math">\begin{equation*}
+\langle \kappa, v \rangle_{H^s(\Gamma)} = \lambda(v),\quad v\in H^s(\Gamma)
+\end{equation*}</span></p>
+<p>If <span class="math notranslate nohighlight">\(\lambda\in H^{-s}(\Gamma)\)</span>, then <span class="math notranslate nohighlight">\(\kappa \in H^s(\Gamma)\)</span>.</p>
+<p>If <span class="math notranslate nohighlight">\(\lambda\in L^2(\Gamma)\)</span>, then <span class="math notranslate nohighlight">\(\kappa\in H^1(\Gamma)\)</span> and <span class="math notranslate nohighlight">\(\kappa \in H^2(E)\)</span> for each edge <span class="math notranslate nohighlight">\(E\)</span> such that the standard finite element approximation estimes yield <span class="math">\begin{equation*}
+\min_{\kappa_h\in T_h} \| \kappa - \kappa_h\|_{H^1(\Gamma)}\le Ch \| g\|_{L^2(\Gamma)}
+\end{equation*}</span></p>
+</li>
+</ul>
+<ul>
+<li><p>More on regularity</p>
+<p>Consider the two point boundary value problem with discontinuous <span class="math notranslate nohighlight">\(\kappa\)</span> such that</p>
+</li>
+</ul>
+<p><span class="math">\begin{equation*}
+\kappa = 1_{[0,0.5)} +  2*1_{[0.5,1]}
+\end{equation*}</span> The weak form writes</p>
+<p><span class="math">\begin{equation*}
+\int_0^1 \kappa u^\prime v^\prime = \int_0^1 f v
+\end{equation*}</span> for <span class="math notranslate nohighlight">\(v\in H_0^1\)</span></p>
+<p>A typical choice is choosing <span class="math notranslate nohighlight">\(f = -\frac14x^{-\frac54}\)</span>, as the derivative of <span class="math notranslate nohighlight">\(g = x^{-\frac14}\)</span>. By Fourier transform, <span class="math notranslate nohighlight">\(x^{-\alpha}\to \xi^{-(n-\alpha)}\)</span>, then <span class="math notranslate nohighlight">\({\mathcal{F}} g = \xi^{-\frac34}\)</span> and allows to take <span class="math notranslate nohighlight">\(\frac14\)</span> derivatives Means <span class="math notranslate nohighlight">\(g\in H^{\frac14-}\)</span>. Then <span class="math notranslate nohighlight">\(f\in H^{-\frac34-}\)</span>. Then <span class="math notranslate nohighlight">\(u\in H^{\frac14-}\)</span> (no elliptic regularity improvement, only valid in two sub-intervals) Then linear approximation error is <span class="math notranslate nohighlight">\(h^{\frac14}\)</span>.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, chuya.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

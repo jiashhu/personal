@@ -1,0 +1,316 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Ngsolve solver &mdash; Literature 0.1 文档</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+      <script src="../_static/documentation_options.js?v=7c91f8fd"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script src="../_static/translations.js?v=beaddf03"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="索引" href="../genindex.html" />
+    <link rel="search" title="搜索" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            Literature
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/DE2013MC.html">L2-estimates for the evolving surface finite element method</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/UnfittedFEM.html">Unfitted FEM</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">Literature</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Ngsolve solver</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/ngsolveSolver/NgsolveSolver.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Ngsolve-solver">
+<h1>Ngsolve solver<a class="headerlink" href="#Ngsolve-solver" title="Link to this heading">¶</a></h1>
+<section id="Code的位置">
+<h2>Code的位置<a class="headerlink" href="#Code的位置" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>在程序的package中位于ngsolve/python/krylovspace.py中 ### package的调用</p></li>
+<li><p>from ngsolve.krylovspace import CGSolver ### Solver的parent class是LinearSolver，后续的iterator都是继承自这个class</p></li>
+</ul>
+<section id="Linear-Solver的构建">
+<h3>Linear Solver的构建<a class="headerlink" href="#Linear-Solver的构建" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>本质上是一个矩阵</p></li>
+<li><p>核心的函数是 _SolveImpl，这里只是个抽象的成员函数，后续CGSolver改写了这个成员函数</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[23]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>from ngsolve import BaseMatrix, Preconditioner, BitArray, BaseVector
+from typing import Optional, Callable, Union
+from netgen.libngpy._meshing import _PushStatus, _GetStatus, _SetThreadPercentage
+# BaseMatrix类
+class LinearSolver(BaseMatrix):
+    &quot;&quot;&quot;Base class for linear solvers.
+&quot;&quot;&quot;
+    name = &quot;LinearSolver&quot;
+    def __init__(self, mat : BaseMatrix,
+                 pre : Optional[Preconditioner] = None,
+                 freedofs : Optional[BitArray] = None,
+                 tol : float = None,
+                 maxiter : int = 100,
+                 atol : float = None,
+                 callback : Optional[Callable[[int, float], None]] = None,
+                 callback_sol : Optional[Callable[[BaseVector], None]] = None,
+                 printrates : bool = False):
+        super().__init__()
+        if atol is None and tol is None:
+            tol = 1e-12
+        self.mat = mat
+        assert (freedofs is None) != (pre is None) # either pre or freedofs must be given
+        self.pre = pre if pre else Projector(freedofs, True)
+        self.tol = tol
+        self.atol = atol
+        self.maxiter = maxiter
+        self.callback = callback
+        self.callback_sol = callback_sol
+        self.printrates = printrates
+        self.residuals = []
+        self.iterations = 0
+
+    def Solve(self, rhs : BaseVector, sol : Optional[BaseVector] = None,
+              initialize : bool = True) -&gt; BaseVector:
+        self.iterations = 0
+        self.residuals = []
+        old_status = _GetStatus()
+        _PushStatus(self.name + &quot; Solve&quot;)
+        _SetThreadPercentage(0)
+        if sol is None:
+            sol = rhs.CreateVector()
+            initialize = True
+        if initialize:
+            sol[:] = 0
+        self.sol = sol
+        self._SolveImpl(rhs=rhs, sol=sol)
+        if old_status[0] != &quot;idle&quot;:
+            _PushStatus(old_status[0])
+            _SetThreadPercentage(old_status[1])
+        return sol
+</pre></div>
+</div>
+</div>
+</section>
+<section id="CGSolver继承自LinearSolver">
+<h3>CGSolver继承自LinearSolver<a class="headerlink" href="#CGSolver继承自LinearSolver" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>参数输入应该是 mat = …, pre = …, freedofs = …,</p></li>
+<li><p>改写了 _SolveImpl，使用了</p>
+<ul>
+<li><p>在 <span class="math notranslate nohighlight">\(A\)</span>-内积下寻找共轭方向（方向彼此正交）。</p></li>
+<li><p>在这些方向上逐步最小化二次型 <span class="math notranslate nohighlight">\(\|A x-b\|_2^2\)</span> 。</p></li>
+</ul>
+</li>
+</ul>
+</section>
+</section>
+<section id="_SolveImpl-的解释">
+<h2>_SolveImpl 的解释<a class="headerlink" href="#_SolveImpl-的解释" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(r_0=b-A x_0: \mathrm{d}\)</span> 存储当前的残差向量 <span class="math notranslate nohighlight">\(r_0\)</span> 。</p></li>
+<li><p><span class="math notranslate nohighlight">\(w_0=M^{-1} r_0: \mathrm{w}\)</span> 存储预处理后的残差向量, 其中 <span class="math notranslate nohighlight">\(M\)</span> 是预条件矩阵（可选)。</p></li>
+<li><p><span class="math notranslate nohighlight">\(s\)</span> 初始为 <span class="math notranslate nohighlight">\(w_0\)</span>, 表示搜索方向 <span class="math notranslate nohighlight">\(d_0\)</span> 。</p></li>
+<li><p><span class="math notranslate nohighlight">\(w d n\)</span> 是 <span class="math notranslate nohighlight">\(r_0^{\top} M^{-1} r_0\)</span>, 用于计算步长和判断是否达到收玫条件。</p></li>
+</ul>
+</section>
+<section id="预处理矩阵M应当是A的近似，self.pre则是M的逆的作用">
+<h2>预处理矩阵M应当是A的近似，self.pre则是M的逆的作用<a class="headerlink" href="#预处理矩阵M应当是A的近似，self.pre则是M的逆的作用" title="Link to this heading">¶</a></h2>
+<ul class="simple">
+<li><p>这样<span class="math notranslate nohighlight">\(w_0 = M^{-1}r_0=M^{-1}b-M^{-1}A x_0\)</span> 相当于求解 <span class="math notranslate nohighlight">\(M^{-1}A y = M^{-1}b\)</span>这个预处理的方程</p></li>
+</ul>
+<p>更新解和残差</p>
+<p>更新共轭系数和搜索方向：（<span class="math notranslate nohighlight">\(\beta\)</span>的分子是新的步长分子）</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[27]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>class CGSolver(LinearSolver):
+    def __init__(self, *args,
+                 conjugate : bool = False,
+                 abstol : float = None,
+                 maxsteps : int = None,
+                 printing : bool = False,
+                 **kwargs):
+        if printing:
+            print(&quot;WARNING: printing is deprecated, use printrates instead!&quot;)
+            kwargs[&quot;printrates&quot;] = printing
+        if abstol is not None:
+            print(&quot;WARNING: abstol is deprecated, use atol instead!&quot;)
+            kwargs[&quot;abstol&quot;] = abstol
+        if maxsteps is not None:
+            print(&quot;WARNING: maxsteps is deprecated, use maxiter instead!&quot;)
+            kwargs[&quot;maxiter&quot;] = maxsteps
+        super().__init__(*args, **kwargs)
+
+    def _SolveImpl(self, rhs : BaseVector, sol : BaseVector):
+        d, w, s = [sol.CreateVector() for i in range(3)]
+        conjugate = self.conjugate
+        d.data = rhs - self.mat * sol
+        w.data = self.pre * d
+        s.data = w
+        wdn = w.InnerProduct(d, conjugate=conjugate)
+        if self.CheckResidual(sqrt(abs(wdn))):
+            return
+
+        while True:
+            w.data = self.mat * s
+            wd = wdn
+            as_s = s.InnerProduct(w, conjugate=conjugate)       # 计算步长分母
+            if as_s == 0 or wd == 0: break
+            alpha = wd / as_s
+            sol.data += alpha * s                               # 更新解，沿着搜索方向走alpha
+            d.data += (-alpha) * w                              # 更新残差
+
+            w.data = self.pre * d
+
+            wdn = w.InnerProduct(d, conjugate=conjugate)        # 计算新的步长分子
+            if self.CheckResidual(sqrt(abs(wdn))):
+                return
+
+            beta = wdn / wd
+            s *= beta
+            s.data += w
+</pre></div>
+</div>
+</div>
+<p>CG 不需要显式构造 Arnoldi 或 Lanczos 基向量</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>IO = True
+class GatherData():
+    def __init__(self,IO) -&gt; None:
+        self.iter = 0
+        self.residue = 0
+        self.IO = IO
+
+    def collect(self,iters,residue):
+        self.iter = max(self.iter,iters)
+        self.residue = max(self.residue,residue)
+        if self.IO:
+            print(&quot;{} CG ends with iters {} and residue {}&quot;.format(LogTime(),iters,residue))
+
+    def print(self):
+        print(&#39;max CG iters = {} and max residue = {}&#39;.format(self.iter,self.residue))
+N_Iter_CG_Info = GatherData(IO)
+</pre></div>
+</div>
+</div>
+<section id="CGSolver的使用">
+<h3>CGSolver的使用<a class="headerlink" href="#CGSolver的使用" title="Link to this heading">¶</a></h3>
+<ul class="simple">
+<li><p>CGSolver(mat = lhs_Niter.mat, pre = Pre.mat, maxiter=100, printrates=False,callback=N_Iter_CG_Info.collect)</p></li>
+<li><p>输入参数</p>
+<ul>
+<li><p>第一个是一个矩阵</p></li>
+<li><p>第二个是预处理矩阵</p></li>
+<li><p>callback：</p></li>
+</ul>
+</li>
+</ul>
+<p>Preconditioner(lhs_Niter,’multigrid’)</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2023, chuya.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

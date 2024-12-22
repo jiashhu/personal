@@ -1,0 +1,319 @@
+{
+ "cells": [
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "# Level set method vs threshold dynamics\n",
+    "\n",
+    "## Level set method\n",
+    "* OS1988JCP\n",
+    "* elegent, convergence\n",
+    "* drawback: lower accuracy in time, time step restriction, hard to extended to network: correct junction conditions at free boundaries\n",
+    "* advantage: spatial accuracy on uniform grid\n",
+    "\n",
+    "## threshold dynamics\n",
+    "* MBO1994JCP\n",
+    "* advantage: network\n",
+    "* drawback: low accuracy on uniform spatial grids --  represents interface by characteristic functions\n",
+    "\n",
+    "## median filter scheme\n",
+    "* Oberman2004NM, GMR\n",
+    "* "
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Level set PDE for mean curvature flow \n",
+    "\\begin{align*}\n",
+    "\\phi_t=|\\nabla \\phi| \\nabla \\cdot\\left(\\frac{\\nabla \\phi}{|\\nabla \\phi|}\\right)\n",
+    "\\end{align*}\n",
+    "An explicit solution\n",
+    "\\begin{equation*}\n",
+    "\\phi = \\sin(2 \\pi (x-y))\n",
+    "\\end{equation*}\n",
+    "this function satisfies the above PDE on the unit square with periodic boundary condition since\n",
+    "\\begin{equation*}\n",
+    "\\nabla \\phi = 2 \\pi \\cos(2 \\pi (x-y))\n",
+    "\\begin{pmatrix} \n",
+    "1 \\\\ \n",
+    "-1\n",
+    "\\end{pmatrix},\\quad\n",
+    "\\frac{\\nabla \\phi}{|\\nabla \\phi|} = C\n",
+    "\\end{equation*}"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Derivation of the median filter method\n",
+    "\n",
+    "Discretize in time by Euler method\n",
+    "\n",
+    "\\begin{equation*}\n",
+    "\\phi^{n+1}- \\phi^n = k |\\nabla \\phi^n| \\nabla\\cdot \\left( \\frac{\\nabla \\phi^n}{|\\nabla \\phi^n|}\\right)\n",
+    "\\end{equation*}\n",
+    "When $\\phi$ is sufficiently differentiable and $\\nabla \\phi(x)\\not=0$, \n",
+    "\\begin{align*}\n",
+    "|\\nabla \\phi| \\nabla \\cdot\\left(\\frac{\\nabla \\phi}{|\\nabla \\phi|}\\right)\n",
+    "&=\\Delta \\phi(x)-\\left\\langle D^2 \\phi(x) \\frac{\\nabla \\phi}{|\\nabla \\phi|}, \\frac{\\nabla \\phi}{|\\nabla \\phi|}\\right\\rangle\\\\\n",
+    "&=\\left\\langle D^2 \\phi(x) \\frac{\\nabla^{\\perp} \\phi(x)}{\\left|\\nabla^{\\perp} \\phi(x)\\right|}, \\frac{\\nabla^{\\perp} \\phi(x)}{\\left|\\nabla^{\\perp} \\phi(x)\\right|}\\right\\rangle \\quad \\textrm{tangential surface Laplacian}\\\\\n",
+    "&\\approx \\frac{{M}_r \\phi(x)-2 \\phi(x)+{M}_r \\phi(x)}{r^2}\\quad \\textrm{by median value of level set function}.\n",
+    "\\end{align*}\n",
+    "Taking $r=\\sqrt{2k}$, the scheme becomes\n",
+    "\\begin{equation*}\n",
+    "\\phi^{n+1}(x) = M_r \\phi^n(x)\n",
+    "\\end{equation*}\n",
+    "This gives the iteration of all values of $\\phi$."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## viscosity solution\n",
+    "* "
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Weighted median filter\n",
+    "$$\n",
+    "K_r(x)=\\frac{1}{r^d} K\\left(\\frac{x}{r}\\right) .\n",
+    "$$\n",
+    "For $K$ with support set $B_1(0)$, then $\\textrm{supp}(K_r) = B_r(0)$\n",
+    "\n",
+    "For a bounded, continuous function $\\phi$ and $\\lambda \\in \\mathbb{R}$, let\n",
+    "$$\n",
+    "{T}_\\lambda \\phi=\\{x: \\phi(x) \\geq \\lambda\\} \\text {. }\n",
+    "$$\n",
+    "The function\n",
+    "$$\n",
+    "\\psi_K \\phi(x, \\lambda)=\\int_{T_\\lambda \\phi} K(x-y) d y\n",
+    "$$\n",
+    "is decreasing (since $K \\geq 0$ ) and left continuous in $\\lambda$, satisfying\n",
+    "$$\n",
+    "\\lim _{\\lambda \\rightarrow \\infty} \\psi_K \\phi(x, \\lambda)=0 \\text { and } \\lim _{\\lambda \\rightarrow-\\infty} \\psi_K \\phi(x, \\lambda)=1 .\n",
+    "$$\n",
+    "Define the weighted median of $\\phi$ at $x$ with respect to the weight $K$ as\n",
+    "$$\n",
+    "{M}_K \\phi(x)=\\sup \\left\\{\\lambda: \\psi_K \\phi(x, \\lambda) \\geq \\frac{1}{2}\\right\\} .\n",
+    "$$\n"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Variational description \n",
+    "\n",
+    "\\begin{equation*}\n",
+    "{M}_K \\phi(x) \\in \\underset{\\xi}{\\arg \\min } \\int|\\xi-\\phi(y)| K(x-y) d y\n",
+    "\\end{equation*}\n",
+    "We have \n",
+    "\\begin{align*}\n",
+    "|\\xi-\\phi(y)|&=\\int_{-\\infty}^{\\xi} {1}_{\\left({T}_\\lambda \\phi\\right)^c}(y) d \\lambda\n",
+    "                +\\int_{\\xi}^{\\infty} {1}_{{T}_\\lambda \\phi}(y) d \\lambda\n",
+    "            = \\int_{-\\infty, \\phi(y)< \\lambda}^{\\xi} 1 d \\lambda\n",
+    "                +\\int_{\\xi, \\phi(y)> \\lambda}^{\\infty} 1 d \\lambda\\\\\n",
+    "            &= | \\xi - \\phi(y)|_+ + | \\phi(y) - \\xi |_+\n",
+    "\\end{align*}"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "so that\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "C(\\xi): & =\\int|\\xi-\\phi(y)| K(x-y) d y \\\\\n",
+    "& =\\int_{-\\infty}^{\\xi} \\int_{\\left({T}_\\lambda \\phi\\right)^c} K(x-y) d y d \\lambda+\\int_{\\xi}^{\\infty} \\int_{{T}_\\lambda \\phi} K(x-y) d y d \\lambda \\\\\n",
+    "& =\\int_{-\\infty}^{\\xi} 1-\\psi_K \\phi(x, \\lambda) d \\lambda+\\int_{\\xi}^{\\infty} \\psi_K \\phi(x, \\lambda) d \\lambda\n",
+    "\\end{aligned}\n",
+    "$$"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### Examples of $K$"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Threshold Dynamics\n",
+    "\n",
+    "\\begin{equation*}\n",
+    "{S}_K \\Sigma=\\left\\{x: K * {1}_{\\Sigma}(x) \\geq \\frac{1}{2}\\right\\} = T_{\\frac12}K*{1}_{\\Sigma}\n",
+    "\\end{equation*}\n",
+    "\n",
+    "### Variational Formulation\n",
+    "\n",
+    "\\begin{equation*}\n",
+    "\\begin{aligned}\n",
+    "\\Sigma^{n+1} & ={T}_{\\frac{1}{2}} K * {1}_{\\Sigma^n}=\\underset{\\Sigma}{\\arg \\min } \\int_{\\Sigma} 1-2 K * {1}_{\\Sigma^n} d x \\\\\n",
+    "& =\\underset{\\Sigma}{\\arg \\min } \\int_{\\Sigma^c} K * {1}_{\\Sigma} d x+\\int\\left({1}_{\\Sigma}-{1}_{\\Sigma^n}\\right) K *\\left({1}_{\\Sigma}-{1}_{\\Sigma^n}\\right) d x\n",
+    "\\end{aligned}\n",
+    "\\end{equation*}"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "\\begin{align*}\n",
+    "\\int_{\\Sigma} 1-2 K * {1}_{\\Sigma^n} d x \n",
+    "&= \\int_{\\Sigma} 1- K * {1}_{\\Sigma^n} d x -\n",
+    "\\int_{\\Sigma} K * {1}_{\\Sigma^n} d x \\\\\n",
+    "&= (1_{\\Sigma}, 1_{\\Sigma^{n,c}}) - (1_ \\Sigma , 1_{ \\Sigma^n})\\\\\n",
+    "&= (1_ \\Sigma,1_{ \\Sigma^c}) + (1_ \\Sigma, 1_{\\Sigma}-1_{ \\Sigma^n})-(1_ \\Sigma,1_{\\Sigma^n})\\\\\n",
+    "&= (1_{ \\Sigma^c}, 1_ \\Sigma) + (1_ \\Sigma-1_{ \\Sigma^n}, 1_{\\Sigma}-1_{ \\Sigma^n})-(1_{\\Sigma^n},1_{\\Sigma^n})\n",
+    "\\end{align*}\n",
+    "When the Fourier transform $\\hat K$ is positive, then \n",
+    "\\begin{equation}\\tag{*}\n",
+    "\\int (1_{\\Sigma} - 1_{\\Sigma^n}) K*(1_{\\Sigma} - 1_{\\Sigma^n}) dx\n",
+    "\\end{equation}\n",
+    "is positive. It is a movement limiter. In particular for energy\n",
+    "\\begin{equation*}\n",
+    "E_K(\\Sigma) = \\int_{ \\Sigma^{c}} K*1_{ \\Sigma}\n",
+    "\\end{equation*}\n",
+    "$E_K(\\Sigma^{n+1})\\le E_K(\\Sigma^n)$"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Connection between median filter and threshold dynamics\n",
+    "\n",
+    "The threshold for some super level set is exactly the super level set of the weighted median\n",
+    "\\begin{equation*}\n",
+    "\\begin{aligned}\n",
+    "&{S}_K {T}_\\lambda \\phi={T}_\\lambda {M}_K \\phi\n",
+    "\\end{aligned}\n",
+    "\\end{equation*}\n",
+    "Then $M_K \\phi(x)=\\sup \\left\\{\\lambda: x \\in {S}_K {T}_\\lambda \\phi\\right\\}$\n",
+    "In the terminology of [16], median schemes are the stacked filter versions of threshold dynamics scheme"
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Variational Formulation of Median Schemes\n",
+    "\n",
+    "Define Energy (1. Is it possible to start from the energy? 2. Differentiable energy, square type)\n",
+    "\\begin{equation*}\n",
+    "\\mathcal{E}_K(\\phi)=\\iint K(x-y)|\\phi(x)-\\phi(y)| d x d y\n",
+    "\\end{equation*}\n",
+    "### Relations\n",
+    "* Description of positive part by level set\n",
+    "\\begin{equation*}\n",
+    "\\int_{\\mathbb{R}} {1}_{{T}_\\lambda \\phi}(y)\\left(1-{1}_{{T}_\\lambda \\phi}(x)\\right) d \\lambda=(\\phi(y)-\\phi(x))_{+}\n",
+    "\\end{equation*}\n",
+    "We have\n",
+    "\\begin{align*}\n",
+    "\\mathcal{E}_K(\\phi)=\\iint K(x-y)|\\phi(x)-\\phi(y)| d x d y \n",
+    "&= 2\\iint K(x-y)(\\phi(x)-\\phi(y))_+ d x d y\\\\\n",
+    "&= 2\\int (1_{T_ \\lambda \\phi}, 1_{T_ \\lambda \\phi^c})d \\lambda = 2 \\int E_K(T_ \\lambda \\phi) d\\lambda\n",
+    "\\end{align*}\n",
+    "* Energy of superlevel set and Energy of $\\phi$\n",
+    "\\begin{align*}\n",
+    "\\int E_K(T_ \\lambda \\phi) d \\lambda = \\frac12 \\mathcal{E}_K( \\phi)\n",
+    "\\end{align*}\n",
+    "* $\\mathcal{E}_K$ is the Lyapunov function of the median filter $\\phi^{n+1} = M_K \\phi^n$."
+   ]
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "Variational form\n",
+    "\\begin{align*}\n",
+    "\\phi^{n+1} \\in \\underset{\\phi}{\\arg \\min } \\mathcal{E}_K(\\phi)+\\mathcal{M}_n(\\phi)\n",
+    "\\end{align*}\n",
+    "where\n",
+    "$$\n",
+    "\\begin{aligned}\n",
+    "\\mathcal{M}_n(\\phi)=\\iint K(x-y)( & 2\\left|\\phi(x)-\\phi^n(y)\\right| \\\\\n",
+    "& \\left.-|\\phi(x)-\\phi(y)|-\\left|\\phi^n(x)-\\phi^n(y)\\right|\\right) d x d y\n",
+    "\\end{aligned}\n",
+    "$$\n",
+    "This is the integral of the energy movement limiter in (*)\n",
+    "\\begin{align*}\n",
+    "\\iint\\left(\\mathbf{1}_{T_\\lambda \\phi}-\\mathbf{1}_{T_\\lambda \\phi^n}\\right) K *\\left(\\mathbf{1}_{T_\\lambda \\phi}-\\mathbf{1}_{T_\\lambda \\phi^n}\\right) d x d \\lambda\n",
+    "\\end{align*}"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "vscode": {
+     "languageId": "plaintext"
+    }
+   },
+   "outputs": [],
+   "source": []
+  },
+  {
+   "attachments": {},
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "### local median filter\n",
+    "\n",
+    "\n",
+    "### weighted median filter\n",
+    "\n",
+    "\n",
+    "\n",
+    "### two-phase threshold dynamics\n",
+    "* convolution \n",
+    "* thresholding\n",
+    "\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "vscode": {
+     "languageId": "plaintext"
+    }
+   },
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "language_info": {
+   "name": "python"
+  },
+  "orig_nbformat": 4
+ },
+ "nbformat": 4,
+ "nbformat_minor": 2
+}
