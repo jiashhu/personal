@@ -40,6 +40,10 @@ jobs:
         run: |
           mkdir -p docs
           cp -r build/html/* docs/
+      
+      - name: Create .nojekyll to avoid Jekyll processing
+        run: |
+          touch docs/.nojekyll
 
       - name: Push changes
         run: |
