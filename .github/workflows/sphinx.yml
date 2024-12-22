@@ -25,7 +25,7 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx-rtd-theme nbsphinx
+          pip install sphinx sphinx-rtd-theme nbsphinx myst_parser
 
       - name: Build Sphinx Docs
         run: |
