@@ -17,29 +17,33 @@ jobs:
         uses: actions/setup-python@v4
         with:
           python-version: 3.9
-    
+
       - name: Install Pandoc
         run: |
           sudo apt-get update
           sudo apt-get install -y pandoc
 
-      - name: Check Pandoc version
-        run: pandoc --version
-
       - name: Install dependencies
         run: |
-          pip install sphinx sphinx-rtd-theme nbsphinx myst_parser
+          pip install sphinx sphinx-rtd-theme nbsphinx
 
       - name: Build Sphinx Docs
         run: |
           sphinx-build -b html source build/html
 
+      - name: Configure Git user
+        run: |
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+
       - name: Deploy to GitHub Pages (docs folder)
         run: |
           mkdir -p docs
           cp -r build/html/* docs/
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
+          
+      - name: Push changes
+        run: |
+          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/jiashhu/personal.git
           git add docs/
           git commit -m "Update Sphinx docs"
-          git push
+          git push origin main
