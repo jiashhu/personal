@@ -7,11 +7,11 @@ Welcome to ComputMat's documentation!
 =====================================
 
 .. toctree::
-   :maxdepth: 2
-   :titlesonly:
+   :maxdepth: 4
    :caption: Contents:
    
-   SPDE/ES2012MJM
+   SPDE/UnfittedFEM.ipynb
+   SPDE/ES2012MJM.md
 
 Indices and tables
 ==================

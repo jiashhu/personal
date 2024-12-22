@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html class="writer-html5" lang="zh-CN" data-content_root="../">
+<html class="writer-html5" lang="en" data-content_root="../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>L2-estimates for the evolving surface finite element method &mdash; Literature 0.1 文档</title>
+  <title>L2-estimates for the evolving surface finite element method &mdash; myresearch 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=19f00094" />
 
@@ -13,16 +13,17 @@
     <script src="../_static/js/html5shiv.min.js"></script>
   <![endif]-->
   
-        <script src="../_static/documentation_options.js?v=7c91f8fd"></script>
+        <script src="../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../_static/documentation_options.js?v=2709fde1"></script>
         <script src="../_static/doctools.js?v=9a2dae69"></script>
         <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script src="../_static/translations.js?v=beaddf03"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
         <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
         <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
-    <link rel="index" title="索引" href="../genindex.html" />
-    <link rel="search" title="搜索" href="../search.html" /> 
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -34,7 +35,7 @@
           
           
           <a href="../index.html" class="icon icon-home">
-            Literature
+            myresearch
           </a>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
@@ -46,7 +47,9 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="UnfittedFEM.html">UnfittedFEM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html#literature">Literature</a></li>
 </ul>
 
         </div>
@@ -55,7 +58,7 @@
 
     <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
           <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="../index.html">Literature</a>
+          <a href="../index.html">myresearch</a>
       </nav>
 
       <div class="wy-nav-content">
@@ -74,18 +77,18 @@
            <div itemprop="articleBody">
              
   <section id="L2-estimates-for-the-evolving-surface-finite-element-method">
-<h1>L2-estimates for the evolving surface finite element method<a class="headerlink" href="#L2-estimates-for-the-evolving-surface-finite-element-method" title="Link to this heading">¶</a></h1>
+<h1>L2-estimates for the evolving surface finite element method<a class="headerlink" href="#L2-estimates-for-the-evolving-surface-finite-element-method" title="Link to this heading"></a></h1>
 <ul class="simple">
 <li><p>Authors: Dziuk &amp; Elliott</p></li>
 </ul>
 <section id="Main-contribution">
-<h2>Main contribution<a class="headerlink" href="#Main-contribution" title="Link to this heading">¶</a></h2>
+<h2>Main contribution<a class="headerlink" href="#Main-contribution" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>optimal and uniform in time <span class="math notranslate nohighlight">\(L^2\)</span> bound for linear fem for advection and diffusion equation on a moving surface</p></li>
 </ul>
 </section>
 <section id="Main-Existing-results">
-<h2>Main Existing results<a class="headerlink" href="#Main-Existing-results" title="Link to this heading">¶</a></h2>
+<h2>Main Existing results<a class="headerlink" href="#Main-Existing-results" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p><span class="math notranslate nohighlight">\(H^1\)</span> optimal error in [9], <span class="math notranslate nohighlight">\(L^\infty L^2\)</span> and <span class="math notranslate nohighlight">\(L^2H^1\)</span> in <span class="math notranslate nohighlight">\(\mathcal{O}(h)\)</span>. <span class="math">\begin{align}
 \sup _{t \in(0, T)}\left\|u(\cdot, t)-u_h(\cdot, t)\right\|_{L^2(\Gamma(t))}^2+\int_0^T\left\|\nabla_{\Gamma}\left(u(\cdot, t)-u_h(\cdot, t)\right)\right\|_{L^2(\Gamma(t))}^2 d t \leq c h^2
@@ -93,7 +96,7 @@
 </ul>
 </section>
 <section id="Method">
-<h2>Method<a class="headerlink" href="#Method" title="Link to this heading">¶</a></h2>
+<h2>Method<a class="headerlink" href="#Method" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>Weak solution <span class="math">\begin{align}
 \int_{\Gamma(t)} \partial^{\bullet} u \varphi+\int_{\Gamma(t)} u \varphi \nabla_{\Gamma} \cdot v+\int_{\Gamma(t)} \mathcal{A} \nabla_{\Gamma} u \cdot \nabla_{\Gamma} \varphi=0
@@ -131,7 +134,7 @@
 <p>Definition 4.3. We define a material velocity for <span class="math notranslate nohighlight">\(x=X(t)\)</span> on the surface <span class="math notranslate nohighlight">\(\Gamma_h(t)\)</span> by (4.5) <span class="math notranslate nohighlight">\(\dot{X}(t)=V_h(X(t), t), V_h(x, t):=\sum_{j=1}^N \dot{X}_j(t) \chi_j(x, t)\)</span> for <span class="math notranslate nohighlight">\(x \in S_h(t)\)</span>, and the associated material velocity on <span class="math notranslate nohighlight">\(\Gamma(t)\)</span> by (4.6) <span class="math notranslate nohighlight">\(\quad \dot{Y}(t)=v_h(Y(t), t)=\frac{\partial p}{\partial t}(X(t), t)+V_h(X(t), t) \cdot \nabla p(X(t), t)\)</span> so that for <span class="math notranslate nohighlight">\(x \in \Gamma_h(t)\)</span>, (4.7)
 <span class="math notranslate nohighlight">\(\quad v_h(p(x, t), t)=(P-d \mathcal{H})(x, t) V_h(x, t)-d_t(x, t) \nu(x, t)-d(x, t) \nu_t(x, t)\)</span>, where <span class="math notranslate nohighlight">\(Y(t)=p(X(t), t)\)</span> is defined by <span class="math notranslate nohighlight">\((2.2)\)</span>.</p>
 <section id="Benefit-of-Ritz-Projection">
-<h3>Benefit of Ritz Projection<a class="headerlink" href="#Benefit-of-Ritz-Projection" title="Link to this heading">¶</a></h3>
+<h3>Benefit of Ritz Projection<a class="headerlink" href="#Benefit-of-Ritz-Projection" title="Link to this heading"></a></h3>
 <ul class="simple">
 <li><p>Help to reduce the consistency error</p></li>
 </ul>
@@ -147,7 +150,7 @@
   <hr/>
 
   <div role="contentinfo">
-    <p>&#169; Copyright 2023, chuya.</p>
+    <p>&#169; Copyright 2024, jiash.</p>
   </div>
 
   Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a

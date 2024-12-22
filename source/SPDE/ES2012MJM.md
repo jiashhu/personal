@@ -1,6 +1,6 @@
 # An ALE ESFEM for solving PDEs on evolving surfaces
 
-## Main questions:
+## Main questions:Change
 * which tangentail velocity? by BGN method
 * is it stable? or analyzed? Not analyzed. 
 
@@ -12,7 +12,7 @@
 * eigenvalue problem on surface with holes using homology fem
 * 
 
-## Literature
+# Literature
 * ESFEM的引入： G. Dziuk and C. M. Elliott, Finite elements on evolving surfaces, IMA Journal Numerical Analysis, 25 (2007), pp. 385–407.
 * ESFEM Eulerian: An Eulerian approach to transport and diffusion on evolving implicit surfaces, Computing and Visualization in Science, 13 (2010), pp. 17–28
 
