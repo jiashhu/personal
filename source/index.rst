@@ -12,8 +12,6 @@ Welcome to ComputMat's documentation!
    :caption: Contents:
    
    SPDE/ES2012MJM
-   SPDE/DE2013MC
-   SPDE/UnfittedFEM
 
 Indices and tables
 ==================
