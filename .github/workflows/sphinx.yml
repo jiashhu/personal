@@ -40,10 +40,10 @@ jobs:
         run: |
           mkdir -p docs
           cp -r build/html/* docs/
-          
+
       - name: Push changes
         run: |
-          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.GITHUB_TOKEN }}@github.com/jiashhu/personal.git
+          git remote set-url origin https://$GITHUB_ACTOR:${{ secrets.PERSONAL_ACCESS_TOKEN }}@github.com/jiashhu/personal.git
           git add docs/
           git commit -m "Update Sphinx docs"
           git push origin main
