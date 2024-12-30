@@ -129,7 +129,11 @@
 \frac{d}{d t} \int_{\Gamma(t)} u \varphi+\int_{\Gamma(t)} \mathcal{A} \nabla_{\Gamma} u \cdot \nabla_{\Gamma} \varphi=\int_{\Gamma(t)} u \partial^{\bullet} \varphi
 \end{align}</span></p>
 <p>Compared with DE2007IJNA, the main difference is the reformulation of the scheme such that the velocity is not explictly involved.</p>
-<p>There are two key points: * To compare the numerical solution with the Ritz projeciton, so as to split the error * material derivative of error of Ritz projection, by defining a lifted velocity on <span class="math notranslate nohighlight">\(\Gamma\)</span> via lifted trajectory</p>
+<p>There are two key points:</p>
+<ul class="simple">
+<li><p>To compare the numerical solution with the Ritz projeciton, so as to split the error</p></li>
+<li><p>material derivative of error of Ritz projection, by defining a lifted velocity on <span class="math notranslate nohighlight">\(\Gamma\)</span> via lifted trajectory</p></li>
+</ul>
 <p>Definition 4.3. We define a material velocity for <span class="math notranslate nohighlight">\(x=X(t)\)</span> on the surface <span class="math notranslate nohighlight">\(\Gamma_h(t)\)</span> by (4.5) <span class="math notranslate nohighlight">\(\dot{X}(t)=V_h(X(t), t), V_h(x, t):=\sum_{j=1}^N \dot{X}_j(t) \chi_j(x, t)\)</span> for <span class="math notranslate nohighlight">\(x \in S_h(t)\)</span>, and the associated material velocity on <span class="math notranslate nohighlight">\(\Gamma(t)\)</span> by (4.6) <span class="math notranslate nohighlight">\(\quad \dot{Y}(t)=v_h(Y(t), t)=\frac{\partial p}{\partial t}(X(t), t)+V_h(X(t), t) \cdot \nabla p(X(t), t)\)</span> so that for <span class="math notranslate nohighlight">\(x \in \Gamma_h(t)\)</span>, (4.7)
 <span class="math notranslate nohighlight">\(\quad v_h(p(x, t), t)=(P-d \mathcal{H})(x, t) V_h(x, t)-d_t(x, t) \nu(x, t)-d(x, t) \nu_t(x, t)\)</span>, where <span class="math notranslate nohighlight">\(Y(t)=p(X(t), t)\)</span> is defined by <span class="math notranslate nohighlight">\((2.2)\)</span>.</p>
 <section id="Benefit-of-Ritz-Projection">

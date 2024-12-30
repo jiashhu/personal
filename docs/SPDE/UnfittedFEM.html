@@ -9,6 +9,7 @@
   <title>UnfittedFEM &mdash; myresearch 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
     <link rel="canonical" href="https://jiashhu.github.io/personal/SPDE/UnfittedFEM.html" />
@@ -48,7 +49,15 @@
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1 current"><a class="current reference internal" href="#">UnfittedFEM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">UnfittedFEM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Stokes方程的特别设定">Stokes方程的特别设定</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#这个weighted-H^1-seminorm比-L^2范数更小">这个weighted <span class="math notranslate nohighlight">\(H^1\)</span>-seminorm比 <span class="math notranslate nohighlight">\(L^2\)</span>范数更小</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#Inf-sup条件">Inf-sup条件</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#现在unfitted情况下-v-的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数">现在unfitted情况下 <span class="math notranslate nohighlight">\(v\)</span> 的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数</a></li>
+</ul>
+</li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html#literature">Literature</a></li>
 </ul>
@@ -79,6 +88,80 @@
              
   <section id="UnfittedFEM">
 <h1>UnfittedFEM<a class="headerlink" href="#UnfittedFEM" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>所有的激活单元 <span class="math">\begin{align*}
+\mathcal{T}_{h,e}^n = \{T\in \mathcal{T}_h: \textrm{dist}(x, \Omega^n)\le \delta \exists x\in \bar T\}
+\end{align*}</span></p></li>
+<li><p>所有激活单元的所有内部边 <span class="math notranslate nohighlight">\({\mathcal{F}} _{h,e}^n\)</span></p></li>
+<li><p>所有的内部单元 <span class="math">\begin{align*}
+\mathcal{T}_{h,i}^n  = \{T\in \mathcal{T}_{h,e}^n: \textrm{int}(T)\subset \Omega^n\}
+\end{align*}</span></p></li>
+<li><p>内部单元的所有内部边 <span class="math notranslate nohighlight">\({\mathcal{F}} _{h,i}^n\)</span></p></li>
+<li><p>边界的带状区域的单元 $ <span class="math">\mathcal{T}</span><em>{ :nbsphinx-math:`Gamma`}^n:math:`，以及这个带状区域的所有内部边和内边界` :nbsphinx-math:`mathcal{F}`</em>{ <span class="math">\Gamma</span>}^n$</p></li>
+</ul>
+<section id="Stokes方程的特别设定">
+<h2>Stokes方程的特别设定<a class="headerlink" href="#Stokes方程的特别设定" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>速度空间 <span class="math notranslate nohighlight">\(V^n_h\)</span>; 压力空间 <span class="math notranslate nohighlight">\(Q^n_h\)</span>；压力满足 <span class="math">\begin{align*}
+Q_h^n = \{ \exists q\in Q_h s.t. \int_{ \Omega_h^n} q dx = 0\}.
+\end{align*}</span> 意思是，每个<span class="math notranslate nohighlight">\(Q_h^n\)</span>中的元素，存在一个<span class="math notranslate nohighlight">\(Q_h\)</span>中的有限元函数延拓，并且这个元素本身在内部单元上总积分为0.</p></li>
+</ul>
+<ul class="simple">
+<li><p>Nitsche-type norms <span class="math">\begin{align*}
+\| v\|_n^2 := \| \nabla v\|_{ \Omega^n}^2 + h^{-1} \| v\|_{ \Gamma^n}^2 + h \| \nabla v\|_{ \Gamma^n}^2
+\end{align*}</span></p></li>
+<li><p>extended norms <span class="math">\begin{align*}
+\| v\|_{n,e}^2 := \| \nabla v\|_{ \Omega^n_e}^2 + \| v\|_n^2
+\end{align*}</span></p></li>
+</ul>
+<ul class="simple">
+<li><p>压力的范数 weighted <span class="math notranslate nohighlight">\(H^1\)</span>-seminorm <span class="math">\begin{align*}
+\| q\|_{n,i}^2 := h^2 \sum_{T\in \mathcal{T}^n_i} \| \nabla q\|_T^2 + h \sum_{ F\in {\mathcal{F}} ^n_i} \| [q]\|_F^2
+\end{align*}</span> 逐个单元上的weighted <span class="math notranslate nohighlight">\(H^1\)</span>-seminorm以及单元之间edge上的跳量</p></li>
+</ul>
+<section id="这个weighted-H^1-seminorm比-L^2范数更小">
+<h3>这个weighted <span class="math notranslate nohighlight">\(H^1\)</span>-seminorm比 <span class="math notranslate nohighlight">\(L^2\)</span>范数更小<a class="headerlink" href="#这个weighted-H^1-seminorm比-L^2范数更小" title="Link to this heading"></a></h3>
+<p><span class="math notranslate nohighlight">\(\| q\|_{n,i}\sim \| q\|_{L^2}\)</span></p>
+</section>
+<section id="Inf-sup条件">
+<h3>Inf-sup条件<a class="headerlink" href="#Inf-sup条件" title="Link to this heading"></a></h3>
+<p><span class="math">\begin{align*}
+\| v\|_{n,e}\lesssim \| q\|_{n,i}
+\end{align*}</span> <span class="math">\begin{align*}
+\| q\|_{n,i}^2 \le b^n(v,q) = \int_{ \Omega^n} \textrm{div}v q - \int_{ \Gamma^n} v\cdot n q
+\end{align*}</span> 正常来说，inf-sup条件是说对任意的q，都存在一个v满足v的<span class="math notranslate nohighlight">\(H^1\)</span>范数小于等于q的L2范数。标准的inf-sup条件通过如下的定理来证明：存在<span class="math notranslate nohighlight">\(v\)</span>边界为0，并且 <span class="math notranslate nohighlight">\(\textrm{div}(v) = q\)</span>。 这样就找到了<span class="math notranslate nohighlight">\(v\)</span>使得它的<span class="math notranslate nohighlight">\(H^1\)</span>范数等于q的L2范数。</p>
+<p>Theorem 6.3. Let <span class="math notranslate nohighlight">\(\Omega \subset \mathbb{R}^n\)</span> be a bounded connected domain with Lipschitz continuous boundary. Then the mapping</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}\begin{aligned}
+\operatorname{div}: V^{\perp} &amp; \longrightarrow L_{2,0}(\Omega) \\
+v &amp; \longmapsto \operatorname{div} v
+\end{aligned}\end{split}\]</div>
+<p>is an isomorphism. Moreover, for any <span class="math notranslate nohighlight">\(q \in L_2(\Omega)\)</span> with <span class="math notranslate nohighlight">\(\int_{\Omega} q d x=0\)</span>, there exists a function <span class="math notranslate nohighlight">\(v \in V^{\perp} \subset H_0^1(\Omega)^n\)</span> with</p>
+<div class="math notranslate nohighlight">
+\[\operatorname{div} v=q \quad \text { and } \quad\|v\|_{1, \Omega} \leq c\|q\|_{0, \Omega}\]</div>
+<p>where <span class="math notranslate nohighlight">\(c=c(\Omega)\)</span> is a constant.</p>
+</section>
+<section id="现在unfitted情况下-v-的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数">
+<h3>现在unfitted情况下 <span class="math notranslate nohighlight">\(v\)</span> 的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数<a class="headerlink" href="#现在unfitted情况下-v-的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>问题：一般的unfitted的inf-sup条件是怎么证明的？</p></li>
+<li><p>进一步： <span class="math">\begin{align*}
+\| v\|_{ \Omega^n}\lesssim h \| q\|_{n,i}
+\end{align*}</span> 这是一个非常不寻常的结论</p></li>
+</ul>
+<p>根据inf-sup条件，双线性型b的部分可以控制压力的interior部分，额外部分用penalty控制 <span class="math">\begin{align*}
+\theta \| q\|_{ \Omega^n}\le \sup_{v\in V^n} \frac{b^n(v,q)}{ \| v\|_{n,e}} + |q|_{J^n}
+\end{align*}</span></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
 </section>
 
 
