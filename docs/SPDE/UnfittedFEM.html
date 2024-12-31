@@ -9,7 +9,6 @@
   <title>UnfittedFEM &mdash; myresearch 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
-      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
     <link rel="canonical" href="https://jiashhu.github.io/personal/SPDE/UnfittedFEM.html" />
@@ -50,12 +49,15 @@
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
 <ul class="current">
 <li class="toctree-l1 current"><a class="current reference internal" href="#">UnfittedFEM</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#Stokes方程的特别设定">Stokes方程的特别设定</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#Stokes方程的特别设定">Stokes方程的特别设定</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#迹不等式（Wu）-单元边界如何被单元内部控制住">迹不等式（Wu） 单元边界如何被单元内部控制住</a><ul>
 <li class="toctree-l3"><a class="reference internal" href="#这个weighted-H^1-seminorm比-L^2范数更小">这个weighted <span class="math notranslate nohighlight">\(H^1\)</span>-seminorm比 <span class="math notranslate nohighlight">\(L^2\)</span>范数更小</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#Inf-sup条件">Inf-sup条件</a></li>
 <li class="toctree-l3"><a class="reference internal" href="#现在unfitted情况下-v-的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数">现在unfitted情况下 <span class="math notranslate nohighlight">\(v\)</span> 的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数</a></li>
 </ul>
 </li>
+<li class="toctree-l2"><a class="reference internal" href="#稳定化">稳定化</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#强制性">强制性</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
@@ -109,9 +111,28 @@ Q_h^n = \{ \exists q\in Q_h s.t. \int_{ \Omega_h^n} q dx = 0\}.
 <ul class="simple">
 <li><p>Nitsche-type norms <span class="math">\begin{align*}
 \| v\|_n^2 := \| \nabla v\|_{ \Omega^n}^2 + h^{-1} \| v\|_{ \Gamma^n}^2 + h \| \nabla v\|_{ \Gamma^n}^2
-\end{align*}</span></p></li>
+\end{align*}</span> 根据迹不等式，Nitsche norm中的第三项是可以被第一项控制住的，这里写上它只是为了方便。</p></li>
 <li><p>extended norms <span class="math">\begin{align*}
 \| v\|_{n,e}^2 := \| \nabla v\|_{ \Omega^n_e}^2 + \| v\|_n^2
+\end{align*}</span></p></li>
+</ul>
+</section>
+<section id="迹不等式（Wu）-单元边界如何被单元内部控制住">
+<h2>迹不等式（Wu） 单元边界如何被单元内部控制住<a class="headerlink" href="#迹不等式（Wu）-单元边界如何被单元内部控制住" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>迹定理：对有界Lipschitz区域 $ <span class="math">\Omega`$, :math:`1\le p\le \infty</span>，存在有界线性的迹算子 $ <span class="math">\gamma</span>_0: W^{1,p}( <span class="math">\Omega</span>):nbsphinx-math:<cite>to `L^p(:nbsphinx-math:</cite>partial <cite>:nbsphinx-math:</cite>Omega`)$ 以及常数 <span class="math notranslate nohighlight">\(C&gt;0\)</span> 使得 <span class="math">\begin{align*}
+\| \gamma_0 u\|_{L^p(\partial \Omega)}\le C \| u\|_{L^p( \Omega)}^{1-1/p} \| u\|_{W^{1,p}( \Omega)}^{1/p},\quad \forall u\in W^{1,p}( \Omega).
+\end{align*}</span></p></li>
+</ul>
+<p>通过在参考单元上使用迹定理，再考虑进尺度变化的Jacobian以及L2以及H1半范的变换规律，可以证明得到下面的局部迹不等式。</p>
+<ul class="simple">
+<li><p>局部迹不等式(定理4.16) For <span class="math notranslate nohighlight">\(v\in H^1(K)\)</span>, we have <span class="math">\begin{align*}
+\| v\|_{L^2(\partial K)}
+&\lesssim h_K^{-\frac12} \| v\|_{L^2(K)} +  \| \nabla v\|_{L^2(K)}^{\frac12} \|v\|_{L^2(K)}^{\frac12}\\
+&\lesssim h_K^{-\frac12} \| v\|_{L^2(K)} + h^{\frac12}_K \| \nabla v\|_{L^2(K)}.
+\end{align*}</span> 第二步用了young不等式。如果直接用逆不等式，得到一个更大的界 <span class="math">\begin{align*}
+\| v\|_{L^2(\partial K)}
+&\lesssim h_K^{-\frac12} \| v\|_{L^2(K)}.
 \end{align*}</span></p></li>
 </ul>
 <ul class="simple">
@@ -152,15 +173,47 @@ v &amp; \longmapsto \operatorname{div} v
 <p>根据inf-sup条件，双线性型b的部分可以控制压力的interior部分，额外部分用penalty控制 <span class="math">\begin{align*}
 \theta \| q\|_{ \Omega^n}\le \sup_{v\in V^n} \frac{b^n(v,q)}{ \| v\|_{n,e}} + |q|_{J^n}
 \end{align*}</span></p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
-</pre></div>
-</div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
-</pre></div>
-</div>
-</div>
+<p>Strong form in $ <span class="math">\Omega`^n$ :nbsphinx-math:</span>begin{align*}
+partial_t u - Delta u + wcdot nabla u + nabla p &amp;= 0\
+nablacdot u&amp; = 0.
+end{align*}` Variational form，利用精确解满足的u在边界上是0来简化第二个方程中的u.n的项 <span class="math">\begin{align*}
+(\partial_t u,v)_{ \Omega^n} + (\nabla u,\nabla v)_{ \Omega^n} - \int_{ \Gamma^n} \partial_n u \cdot v
++ (w\cdot \nabla u,v)_{ \Omega^n} + (\nabla p,v)_{ \Omega^n} &= 0\\
+-(u,\nabla p) & = 0.
+\end{align*}</span></p>
 </section>
+</section>
+<section id="稳定化">
+<h2>稳定化<a class="headerlink" href="#稳定化" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>对称的边界项 <span class="math">\begin{align*}
+-\int_{ \Gamma^n} \partial_n v u
+\end{align*}</span></p></li>
+<li><p>零边界条件的penalty项 <span class="math">\begin{align*}
+h^{-1} \int_{ \Gamma^n} u v
+\end{align*}</span></p></li>
+<li><p>带状区域的所有内部边和内边界$ {<span class="math">\mathcal{F}</span>} _{ <span class="math">\Gamma</span>}^n$中edge上的penalty项 <span class="math">\begin{align*}
+s^n(u,v) = \sum_{F\in {\mathcal{F}} _{ \Gamma}^n} \sum_{k=1} h^{2k-  1}\int_F [ \partial_n^k u][ \partial_n^k v] ds
+\end{align*}</span></p></li>
+</ul>
+<p>k从1开始，最低阶的是一阶法向导数的跳量。</p>
+<ul class="simple">
+<li><p>压力的penalty项 <span class="math">\begin{align*}
+J^n(p,q) = \sum_{F\in {\mathcal{F}} _{ \Gamma}^n} \sum_{k=0} h^{2k+1} \int_F [\partial_n^k p][\partial_n^k q] ds
+\end{align*}</span></p></li>
+</ul>
+<p>k从0开始，最低阶的是法向连续。</p>
+</section>
+<section id="强制性">
+<h2>强制性<a class="headerlink" href="#强制性" title="Link to this heading"></a></h2>
+<p><span class="math">\begin{align*}
+a^n(u,v) = (\nabla u,\nabla v)_{ \Omega^n} - \int_{ \Gamma^n} \partial_n u \cdot v
+- \int_{ \Gamma^n} \partial_n v \cdot u + \frac{ \gamma}{h} \int_{ \Gamma^n} uv
++ (w\cdot \nabla u,v)_{ \Omega^n} + \gamma_s s^n(u,v).
+\end{align*}</span></p>
+<p><span class="math">\begin{align*}
+a^n(v,v)\ge \frac12 (\| v\|_n^2 + \gamma_s |v|_{s^n}^2)
+\end{align*}</span></p>
 </section>
 </section>
 
