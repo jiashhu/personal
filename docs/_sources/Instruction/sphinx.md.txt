@@ -20,3 +20,9 @@
     - name: Build Sphinx Docs
         run: |
           sphinx-build -b html source build/html
+* 本地编写了之后，远程提交之后因为Pages和Action中修改了html文件。因此本地提交的build文件不是最新的，需要先pull下来，merge然后再提交。
+git fetch origin 
+git merge origin/main  
+git add .                 
+git commit
+git push origin main  
