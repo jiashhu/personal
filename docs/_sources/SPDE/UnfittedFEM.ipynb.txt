@@ -219,7 +219,7 @@
     "\\end{align*}\n",
     "\n",
     "\\begin{align*}\n",
-    "a^n(v,v)\\ge \\frac12 (\\| v\\|_n^2 + \\gamma_s |v|_{s^n}^2)\n",
+    "a^n(v,v)\\ge c (\\| v\\|_n^2 + \\gamma_s |v|_{s^n}^2)\n",
     "\\end{align*}"
    ]
   },
