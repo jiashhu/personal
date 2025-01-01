@@ -9,6 +9,7 @@
   <title>UnfittedFEM &mdash; myresearch 0.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
   
     <link rel="canonical" href="https://jiashhu.github.io/personal/SPDE/UnfittedFEM.html" />
@@ -56,8 +57,12 @@
 <li class="toctree-l3"><a class="reference internal" href="#现在unfitted情况下-v-的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数">现在unfitted情况下 <span class="math notranslate nohighlight">\(v\)</span> 的范数增长到了extended的范数，但是右端的压力范数降低到了一个内部单元的weighted范数</a></li>
 </ul>
 </li>
-<li class="toctree-l2"><a class="reference internal" href="#稳定化">稳定化</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#强制性">强制性</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#稳定化项（部分原因是施加DIrichlet边界条件；部分原因是稳定性）">稳定化项（部分原因是施加DIrichlet边界条件；部分原因是稳定性）</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#双线性型以及各种性质：强制性和inf-sup条件">双线性型以及各种性质：强制性和inf-sup条件</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#相邻时间domain函数的稳定性">相邻时间domain函数的稳定性</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Strip上H1函数的控制：额外的strip宽度的小因子">Strip上H1函数的控制：额外的strip宽度的小因子</a></li>
+</ul>
+</li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
@@ -114,7 +119,7 @@ Q_h^n = \{ \exists q\in Q_h s.t. \int_{ \Omega_h^n} q dx = 0\}.
 \end{align*}</span> 根据迹不等式，Nitsche norm中的第三项是可以被第一项控制住的，这里写上它只是为了方便。</p></li>
 <li><p>extended norms <span class="math">\begin{align*}
 \| v\|_{n,e}^2 := \| \nabla v\|_{ \Omega^n_e}^2 + \| v\|_n^2
-\end{align*}</span></p></li>
+\end{align*}</span> 增加了延拓区域中的H1半范数</p></li>
 </ul>
 </section>
 <section id="迹不等式（Wu）-单元边界如何被单元内部控制住">
@@ -176,15 +181,15 @@ v &amp; \longmapsto \operatorname{div} v
 <p>Strong form in $ <span class="math">\Omega`^n$ :nbsphinx-math:</span>begin{align*}
 partial_t u - Delta u + wcdot nabla u + nabla p &amp;= 0\
 nablacdot u&amp; = 0.
-end{align*}` Variational form，利用精确解满足的u在边界上是0来简化第二个方程中的u.n的项 <span class="math">\begin{align*}
+end{align*}` Variational form，利用精确解满足的u在边界上是0来简化（消去）第二个方程中的u.n的项（来源于分部积分） <span class="math">\begin{align*}
 (\partial_t u,v)_{ \Omega^n} + (\nabla u,\nabla v)_{ \Omega^n} - \int_{ \Gamma^n} \partial_n u \cdot v
 + (w\cdot \nabla u,v)_{ \Omega^n} + (\nabla p,v)_{ \Omega^n} &= 0\\
--(u,\nabla p) & = 0.
+-(u,\nabla q)_{ \Omega^n} & = 0.
 \end{align*}</span></p>
 </section>
 </section>
-<section id="稳定化">
-<h2>稳定化<a class="headerlink" href="#稳定化" title="Link to this heading"></a></h2>
+<section id="稳定化项（部分原因是施加DIrichlet边界条件；部分原因是稳定性）">
+<h2>稳定化项（部分原因是施加DIrichlet边界条件；部分原因是稳定性）<a class="headerlink" href="#稳定化项（部分原因是施加DIrichlet边界条件；部分原因是稳定性）" title="Link to this heading"></a></h2>
 <ul class="simple">
 <li><p>对称的边界项 <span class="math">\begin{align*}
 -\int_{ \Gamma^n} \partial_n v u
@@ -204,16 +209,137 @@ J^n(p,q) = \sum_{F\in {\mathcal{F}} _{ \Gamma}^n} \sum_{k=0} h^{2k+1} \int_F [\p
 </ul>
 <p>k从0开始，最低阶的是法向连续。</p>
 </section>
-<section id="强制性">
-<h2>强制性<a class="headerlink" href="#强制性" title="Link to this heading"></a></h2>
+<section id="双线性型以及各种性质：强制性和inf-sup条件">
+<h2>双线性型以及各种性质：强制性和inf-sup条件<a class="headerlink" href="#双线性型以及各种性质：强制性和inf-sup条件" title="Link to this heading"></a></h2>
 <p><span class="math">\begin{align*}
 a^n(u,v) = (\nabla u,\nabla v)_{ \Omega^n} - \int_{ \Gamma^n} \partial_n u \cdot v
 - \int_{ \Gamma^n} \partial_n v \cdot u + \frac{ \gamma}{h} \int_{ \Gamma^n} uv
 + (w\cdot \nabla u,v)_{ \Omega^n} + \gamma_s s^n(u,v).
 \end{align*}</span></p>
 <p><span class="math">\begin{align*}
-a^n(v,v)\ge c (\| v\|_n^2 + \gamma_s |v|_{s^n}^2)
+b^n(v,q) &= \int_{ \Omega^n} \textrm{div}v q - \int_{ \Gamma^n} v\cdot n q
+= -\int_{ \Omega^n} v \nabla q
 \end{align*}</span></p>
+<ul class="simple">
+<li><p>强制性 <span class="math">\begin{align*}
+a^n(v,v)\ge c (\| v\|_n^2 + \gamma_s |v|_{s^n}^2)
+\end{align*}</span></p></li>
+</ul>
+<p>强制性的一些解释：</p>
+<ul class="simple">
+<li><p>控制界面项 \begin{align*} <span class="math">\int</span>_{ <span class="math">\Gamma`^n} :nbsphinx-math:</span>partial`_n u <span class="math">\cdot `u :nbsphinx-math:</span>lesssim <cite>| :nbsphinx-math:</cite>nabla <cite>u|:sup:`2_{L</cite>2( :nbsphinx-math:<a href="#id2"><span class="problematic" id="id3">`</span></a>Omega`^n)}</p></li>
+<li><p><span class="math">\gamma `h^{-1} \| u|\_{L\ :sup:`2(:nbsphinx-math:</span>Gamma``n)}^2 \end{align*}</p></li>
+<li><p><span class="math notranslate nohighlight">\(s^n(u,v)\)</span>是用来控制时间导数离散产生的区域变动</p></li>
+</ul>
+<p><span class="math">\begin{align*}
+(\frac{u^n - u^{n-1}}{\tau},v)_{ \Omega^n}
++ a^n(u^n,v)
++ b^n(v, p^n) &= 0\\
+- b^n(u^n, q) & = 0.
+\end{align*}</span></p>
+<p>精确解代入数值格式，n-1时刻的精确解需要延拓（时间一致的一个延拓）；a中有penalty项，部分对于精确解来说是为0，部分可能是额外增加的，比如edge jump的penalty项。如果解充分光滑的话，那这部分也是免费的。 <span class="math">\begin{align*}
+(\frac{u^n - \mathcal{E}u^{n-1}}{\tau},v)_{ \Omega^n} + a^n(u^n, v)
++ b^n(v,p^n) &=
+(\frac{u^n - \mathcal{E}u^{n-1}}{\tau} - \partial_t u(t_n),v)_{ \Omega^n}.\\
+b^n(u^n, q) & = 0
+\end{align*}</span></p>
+<ul class="simple">
+<li><p>Stokes投影 \begin{align*} a<sup>n(R</sup>nu^n, v)+ b<sup>n(v,R</sup>n p^n) &amp;= a<sup>n(u</sup>n, v)+ b^n(v, p^n).\</p></li>
+<li><p>b<sup>n(R</sup>n u^n,q) &amp; = - b<sup>n(u</sup>n,q) \end{align*}</p></li>
+</ul>
+<p>精确解的Stokes投影代入数值格式 <span class="math">\begin{align*}
+(\frac{R^nu^n - R^{n-1}\mathcal{E}u^{n-1}}{\tau},v)_{ \Omega^n} + a^n(R^nu^n, v)
++ b^n(v,R^n p^n) &=
+(\frac{R^nu^n - R^{n-1}\mathcal{E}u^{n-1}}{\tau} - \partial_t u(t_n),v)_{ \Omega^n} \\
+- b^n(R^n u^n,q) & = 0
+\end{align*}</span></p>
+<p>精确解的插值代入数值格式 <span class="math">\begin{align*}
+(\frac{I^nu^n - I^n\mathcal{E}u^{n-1}}{\tau},v)_{ \Omega^n} + a^n(I^nu^n, v)
++ b^n(v,I^n p^n) &=
+(\frac{I^nu^n - I^n\mathcal{E}u^{n-1}}{\tau} - \partial_t u(t_n),v)_{ \Omega^n}
++ a^n(I^nu^n-u^n, v).\\
+- b^n(I^n u^n,q) & = b^n(u^n - I^n u^n,q)
+\end{align*}</span></p>
+<p><span class="math notranslate nohighlight">\(a^n(I^nu^n-u^n, v)\)</span>值得写出具体表达式，包含了多种来源的相容性误差 <span class="math">\begin{align*}
+a^n(I^nu^n-u^n, v)&= (\nabla (I^nu^n-u^n), \nabla v)_{ \Omega^n}
+- \langle \partial_n(I^nu^n - u^n) v \rangle_{ \Gamma^n}
++ (w\cdot \nabla (I^nu^n-u^n), v)_{ \Omega^n}\\
+&- \langle \partial_n v I^nu^n \rangle_{ \Gamma^n}
++ \frac \gamma h \langle I^nu^n v \rangle_{ \Gamma^n}+ \gamma_s s^n(I^nu^n, v).
+\end{align*}</span></p>
+<ul class="simple">
+<li><p>第一行：来源与Laplace项以及分部积分的相容性项+w的对流项</p></li>
+<li><p>第二行：来源于penalty项（精确解的这些部分恰好是0）</p></li>
+</ul>
+<p>不妨记这些相容性误差为 <span class="math">\begin{align*}
+R_1(v) &= (\frac{I^nu^n - I^n\mathcal{E}u^{n-1}}{\tau} - \partial_t u(t_n),v)_{ \Omega^n} \\
+R_2(v) &= a^n(I^nu^n-u^n, v) \\
+R_3(q) &= b^n(u^n - I^n u^n,q)
+\end{align*}</span></p>
+<p>记误差 <span class="math notranslate nohighlight">\(e_u^n = u^n - I^n u^n\)</span>和 <span class="math notranslate nohighlight">\(e_p^n\)</span>，误差方程为 <span class="math">\begin{align*}
+(\frac{e_u^n - (u^{n-1}- I^n\mathcal{E}u^{n-1})}{\tau},v)_{ \Omega^n} + a^n(e_u^n, v)
++ b^n(v,e_p^n) - b^n(e_u^n, q) = R_1 +R_2 + R_3.
+\end{align*}</span></p>
+<p>选取测试函数 <span class="math notranslate nohighlight">\(q = e_p^n\)</span> 以及 <span class="math notranslate nohighlight">\(v = e_u^n\)</span>，得到 <span class="math">\begin{align*}
+(\frac{e_u^n - (u^{n-1}- I^n\mathcal{E}u^{n-1})}{\tau},e_u^n)_{ \Omega^n} + a^n(e_u^n, e_u^n) = R_1(e_u^n) +R_2(e_u^n) + R_3(e_p^n).
+\end{align*}</span> 插值只需要插值点的值就可以 <span class="math">\begin{align*}
+I^n\mathcal{E}u^{n-1} =  I^{n-1}\mathcal{E}u^{n-1},\quad in\ \ \Omega^n
+\end{align*}</span> 这样就有 <span class="math">\begin{align*}
+(\frac{e_u^n - e_u^{n-1}}{\tau},e_u^n)_{ \Omega^n} + a^n(e_u^n, e_u^n) = R_1(e_u^n) +R_2(e_u^n) + R_3(e_p^n).
+\end{align*}</span></p>
+</section>
+<section id="相邻时间domain函数的稳定性">
+<h2>相邻时间domain函数的稳定性<a class="headerlink" href="#相邻时间domain函数的稳定性" title="Link to this heading"></a></h2>
+<p><span class="math notranslate nohighlight">\(\Omega_{e}^{n-1}\)</span>作为<span class="math notranslate nohighlight">\(\Omega^{n-1}\)</span>的延拓网格区域。</p>
+<p>Lemma 4.1 For <span class="math notranslate nohighlight">\(h\)</span> sufficiently small, there holds for all <span class="math notranslate nohighlight">\(v \in V_h^{n-1}\)</span>,</p>
+<div class="math notranslate nohighlight">
+\[\|v\|_{\Omega^n}^2 \leq \|v\|_{\Omega_{e}^{n-1}}^2 \leq (1 + c_1 \Delta t)\|v\|_{\Omega^{n-1}}^2 + \frac{\Delta t}{4}\|v\|_{n-1}^2 + \Delta t L |v|_{s^{n-1}}^2\]</div>
+<p>for a constant <span class="math notranslate nohighlight">\(c_1 &gt; 0\)</span> independent of <span class="math notranslate nohighlight">\(h, \Delta t\)</span> and how the boundary cuts through the triangulation.</p>
+<section id="Strip上H1函数的控制：额外的strip宽度的小因子">
+<h3>Strip上H1函数的控制：额外的strip宽度的小因子<a class="headerlink" href="#Strip上H1函数的控制：额外的strip宽度的小因子" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>（Lemma 5.6 and Lemma 3.5 in LO2019）</p></li>
+</ul>
+<p>For <span class="math notranslate nohighlight">\(u \in H^1(\mathcal{O}_{\delta}(\Omega_h^n))\)</span> and any <span class="math notranslate nohighlight">\(\varepsilon &gt; 0\)</span>, there holds,</p>
+<div class="math notranslate nohighlight">
+\[\|\mathcal{E} u\|_{\mathcal{S}_{\delta}(\Omega_h^n)}^2 \lesssim
+\delta(1 + \varepsilon^{-1})\|u\|_{\mathcal{O}_{\delta}(\Omega_h^n)}^2
++ \delta \varepsilon \|\nabla u\|_{\mathcal{O}_{\delta}(\Omega_h^n)}^2\]</div>
+<ul class="simple">
+<li><p>证明核心 <span class="math">\begin{align*}
+\| \mathcal{E} u\|_{ \mathcal{S}_ \delta}^2 = \int_0^ \delta \int_{ \Gamma_r} ( {\mathcal{E}}u )^2 ds dr.
+\end{align*}</span> 而 <span class="math notranslate nohighlight">\(\|\mathcal{E} u\|_{L^2(\Gamma_r)}\)</span>可以被domain中的L2以及H1半范数控制（类似于trace不等式） <span class="math">\begin{align*}
+\| \mathcal{E} u\|_{L^2( \Gamma_r)}^2
+\lesssim (1+ \epsilon^{-1}) \|  {\mathcal{E}} u \|_{ \Omega_r}^2 + \frac \epsilon 4 \| \nabla \mathcal{E}u\|_{ \Omega_r}^2
+\end{align*}</span></p></li>
+<li><p>证明完了之后右端是延拓区域上的L2和H1半范数。进一步用domain中的范数以及penalty项控制。因此有界性就已经足够。</p></li>
+</ul>
+<ul class="simple">
+<li><p>相邻单元上两个多项式的L2范数的控制，常数C可能是无法写成 <span class="math notranslate nohighlight">\(1+o(1)\)</span>的 <img alt="Massing2012Lem5-1" src="../_images/Massing2012Lem5-1.png" /></p></li>
+</ul>
+<ul class="simple">
+<li><p>对两个p次多项式，控制单元界面上的<span class="math notranslate nohighlight">\(\le p\)</span>次导数的跳量</p></li>
+<li><p>特殊情形是：p次导数都连续，即两个多项式是一个整体的多项式，则跨单元延拓是有界延拓</p></li>
+</ul>
+<p>核心思路是控制延拓的带状区域中的有限元函数的<span class="math notranslate nohighlight">\(L^2\)</span>范数。</p>
+<p><span class="math">\begin{align*}
+&\| v\|_{ \Omega_e^n}^2\sim \| v\|_{ \Omega^n}^2 + h^2\| v\|_{s^n}^2\\
+&\|\nabla v\|_{ \Omega_e^n}^2\sim \| \nabla v\|_{ \Omega^n}^2 + \| v\|_{s^n}^2\\
+\end{align*}</span></p>
+<p>进一步得到 <span class="math">\begin{align*}
+\| v\|_{n,e}\sim\|\nabla v\|_{ \Omega_e^n} + \| v\|_n
+\sim\| v\|_n + \|v\|_{s^n}
+\end{align*}</span></p>
+<p>离散Poincare不等式</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
 </section>
 </section>
 
