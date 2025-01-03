@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Gradient flow &mdash; myresearch 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+    <link rel="canonical" href="https://jiashhu.github.io/personal/SPDE/梯度流.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            myresearch
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="UnfittedFEM.html">UnfittedFEM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html#literature">Literature</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">myresearch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Gradient flow</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/SPDE/梯度流.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Gradient-flow">
+<h1>Gradient flow<a class="headerlink" href="#Gradient-flow" title="Link to this heading"></a></h1>
+<p>Willmore flow (Willmore能量的L2梯度流). Energy functional <span class="math">\begin{align*}
+E( \Gamma) = \frac12 \int_ \Gamma H^2
+\end{align*}</span></p>
+<p>应用：</p>
+<ul class="simple">
+<li><p>image processing</p></li>
+<li><p>modeling of biological membranes</p></li>
+</ul>
+<p>Considering an evolving surface <span class="math notranslate nohighlight">\(\Gamma(t)\)</span> with normal velocity field <span class="math notranslate nohighlight">\(v = Vn\)</span>. Then <span class="math">\begin{align*}
+\delta E[ \Gamma](V) = \dfrac{d}{dt}|_{t=0} E( \Gamma)
+&= \dfrac{d}{dt} (\frac12 \int_ \Gamma H^2) =
+\int_ \Gamma H { \partial_t^\bullet} H + \frac12 H^2 \nabla_ \Gamma\cdot v\\
+&= \int_ \Gamma H { \partial_t^\bullet} H + \frac12 H^3 V\\
+&= \int_ \Gamma (- \Delta_ \Gamma H -|A|^2 H + \frac12 H^3)V
+\end{align*}</span> where the last line is from integration by part（分部积分） and the evolution equation（演化方程） <span class="math">\begin{align*}
+{ \partial_t^\bullet} H = - \Delta_ \Gamma V - |A|^2 V
+\end{align*}</span> Now we seek the gradient of the functional, which is the Riesz representative of the Frechet’s derivative <span class="math">\begin{align*}
+( \dfrac{ \delta E }{ \delta V}, V)_H = \delta E[ \Gamma](V).
+\end{align*}</span></p>
+<section id="L^2-gradient-flow----Willmore-flow">
+<h2><span class="math notranslate nohighlight">\(L^2\)</span> gradient flow – Willmore flow<a class="headerlink" href="#L^2-gradient-flow----Willmore-flow" title="Link to this heading"></a></h2>
+<p>Taking <span class="math notranslate nohighlight">\(H = L^2( \Gamma)\)</span>, then the gradient flow is <span class="math">\begin{align*}
+V = -\dfrac{ \delta E }{ \delta V} = \Delta_ \Gamma H + |A|^2 H - \frac12 H^3
+\end{align*}</span> This is the Willmore flow.</p>
+</section>
+<section id="Harmonic-map-heat-flow">
+<h2>Harmonic map heat flow<a class="headerlink" href="#Harmonic-map-heat-flow" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Star流；对所有的<span class="math notranslate nohighlight">\(v\)</span>满足 <span class="math notranslate nohighlight">\(v\cdot u =0\)</span>的限制，求解满足 <span class="math notranslate nohighlight">\(\partial_t u\cdot u = 0\)</span>以及 <span class="math">\begin{align*}
+(\partial_t u, v)_{\star} + (\nabla u, \nabla v) = 0
+\end{align*}</span> 的解</p></li>
+<li><p>如果时间导数选取的是H1范数，则相当于是 <span class="math">\begin{align*}
+\partial_t u = (\Delta)^{-1} \Delta u
+\end{align*}</span> 第一个<span class="math notranslate nohighlight">\((\Delta)^{-1}\)</span>对应的正是<span class="math notranslate nohighlight">\(H^1\)</span>梯度流</p></li>
+<li><p>相反的，如果是<span class="math notranslate nohighlight">\(H^{-1}\)</span>梯度流，正如surface diffusion那样，会额外多出Laplacian。因此，现在空间算子具有更大的domain，让它更加可能接近RK的最优阶</p></li>
+</ul>
+<p><span class="math">\begin{align*}
+h^2 \int_F d_t e \nabla d_t e \cdot n
+&\lesssim
+h^2 ( \epsilon^{-1} h^{-1}\| d_t e \|_{F}^2 + \epsilon h \|\nabla d_t e\|_{F}^2 )\\
+&\lesssim
+\epsilon^{-1} h\| d_t e \|_{F}^2 + \epsilon h^2 \|\nabla d_t e\|_{T}^2
+\end{align*}</span> 第二项被分部积分的正项吸收。第一项可以用迹不等式 <span class="math">\begin{align*}
+\lesssim \epsilon^{-1} \| d_t e \|_{T}^2
+\end{align*}</span></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, jiash.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
