@@ -238,9 +238,13 @@ a^n(v,v)\ge c (\| v\|_n^2 + \gamma_s |v|_{s^n}^2)
 <li><p>控制界面项 <span class="math">\begin{align*}
 \int_{ \Gamma^n} \partial_n u \cdot u \lesssim
 \epsilon h\| \partial_n u\|_{L^2( \Gamma^n)}^2 + \epsilon^{-1} h^{-1}\| u\|_{L^2( \Gamma^n)}^2
-\end{align*}</span> 进一步对于<span class="math notranslate nohighlight">\(\Gamma^n\)</span>上的有限元函数的积分，再放大到一个扩张了的domain中用 \begin{align*} <span class="math">\int</span>_{ <span class="math">\Gamma`^n} :nbsphinx-math:</span>partial`_n u <span class="math">\cdot `u &:nbsphinx-math:</span>lesssim ` <span class="math">\epsilon</span>| <span class="math">\nabla `u\|\ :sup:`2\_{L</span>2( :nbsphinx-math:<a href="#id2"><span class="problematic" id="id3">`</span></a>Omega`^n_e)}</p></li>
-<li><p><span class="math">\gamma `:nbsphinx-math:</span>epsilon`^{-1} h^{-1} | u|_{L<sup>2(:nbsphinx-math:</sup>Gamma``n)}^2\ &amp;:nbsphinx-math:<cite>lesssim ` :nbsphinx-math:</cite>epsilon <cite>(| :nbsphinx-math:</cite>nabla <cite>u|:sup:`2_{L</cite>2( :nbsphinx-math:<a href="#id4"><span class="problematic" id="id5">`</span></a>Omega`^n)} + |u|_s^2)</p></li>
-<li><p><span class="math">\gamma `:nbsphinx-math:</span>epsilon`^{-1} h^{-1} | u|_{L<sup>2(:nbsphinx-math:</sup>Gamma``n)}^2 \end{align*}</p></li>
+\end{align*}</span> 进一步对于<span class="math notranslate nohighlight">\(\Gamma^n\)</span>上的有限元函数的积分，再放大到一个扩张了的domain中用 <span class="math">\begin{align*}
+\int_{ \Gamma^n} \partial_n u \cdot u
+&\lesssim
+\epsilon\| \nabla u\|^2_{L^2( \Omega^n_e)} + \gamma \epsilon^{-1} h^{-1} \| u\|_{L^2(\Gamma^n)}^2\\
+&\lesssim
+\epsilon (\| \nabla u\|^2_{L^2( \Omega^n)} + |u|_s^2)+ \gamma \epsilon^{-1} h^{-1} \| u\|_{L^2(\Gamma^n)}^2
+\end{align*}</span></p></li>
 <li><p>此外，<span class="math notranslate nohighlight">\(s^n(u,v)\)</span>也用来控制时间导数离散产生的区域变动</p></li>
 </ul>
 <p><span class="math">\begin{align*}
@@ -421,6 +425,24 @@ I^n\mathcal{E}u^{n-1} =  I^{n-1}\mathcal{E}u^{n-1},\quad in\ \ \Omega^n
 -(e_h, \phi)_{ \Omega(t)}|_{0}^T\\
 &=I_1 + I_2 + I_3 + I_4.
 \end{align}</span> 通过将右端项控制成 <span class="math notranslate nohighlight">\(A \|Z\|_{L^{p'}L^2}\)</span>的形式来得到 <span class="math notranslate nohighlight">\(e_h\)</span>的 <span class="math notranslate nohighlight">\(L^pL^2\)</span>估计。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<p><span class="math">\begin{align*}
+\int_T \nabla \frac{e_h^{n+1}-e_h^n}{\Delta t} \nabla v_h
+\end{align*}</span> 而不是 <span class="math">\begin{align*}
+-\int_T \frac{e_h^{n+1}-e_h^n}{\Delta t} \Delta v_h
+\end{align*}</span> 然后 <span class="math">\begin{align*}
+\left\|\frac{e_h^{n+1}-e_h^n}{\Delta t}\right\|_{L^2\left(\Omega_h\right)}^2+a_h\left(e_h^{n+1}, \frac{e_h^{n+1}-e_h^n}{\Delta t}\right)
++\sigma_s h^2 \sum_{T \in \mathcal{T}_h^{\text {「 }}}
+\int_T \nabla \frac{e_h^{n+1}-e_h^n}{\Delta t} \nabla \left(\frac{e_h^{n+1}-e_h^n}{\Delta t}\right)
++\sigma_b h \sum_{E \in \mathcal{F}_h^{\Gamma}}\left\|\left[\frac{\partial}{\partial n} \frac{e_h^{n+1}-e_h^n}{\Delta t}\right]\right\|_{L^2}^2
+\end{align*}</span> No file chosen</p>
 <div class="nbinput nblast docutils container">
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
 </pre></div>

@@ -1,0 +1,157 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>基本概念 &mdash; myresearch 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+    <link rel="canonical" href="https://jiashhu.github.io/personal/electromagnetic/电磁学.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            myresearch
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/UnfittedFEM.html">UnfittedFEM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../SPDE/ES2012MJM.html#literature">Literature</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">myresearch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">基本概念</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/electromagnetic/电磁学.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="基本概念">
+<h1>基本概念<a class="headerlink" href="#基本概念" title="Link to this heading"></a></h1>
+<section id="电动势">
+<h2>电动势<a class="headerlink" href="#电动势" title="Link to this heading"></a></h2>
+<p>electromotive force（EMF，电动势）</p>
+<ul class="simple">
+<li><p>an energy transfer to an electric circuit per unit of electric charge （单位电荷向电路传递的能量，即每库仑向电路传递的能量（J/C））</p></li>
+<li><p>也可以说是单位电荷沿着闭合回路移动时非静电力做的功（静电力是保守力，沿着闭合回路做功为0）</p></li>
+</ul>
+<p>法拉第电磁感应定律：induced emf in the loop (环路中的感应电动势）= magnetic flux <span class="math notranslate nohighlight">\(\Phi_B\)</span> 的变化率; 電動勢由磁通量的變化率給出 <span class="math">\begin{align*}
+\mathcal{E}_C = \oint_{C} \boldsymbol{E} \cdot \mathrm{d} \boldsymbol{ \ell }
+= - \frac{d\Phi_B}{dt}
+\end{align*}</span> 穿过曲面的magnetic flux的定义 <span class="math">\begin{align*}
+\Phi_B = \iint_S \mathbf{B} \cdot d\mathbf S
+\end{align*}</span></p>
+<p>根据Stokes公式，等价表示为 <span class="math">\begin{align*}
+\iint_S \nabla\times E \cdot dS =
+-\frac{d}{dt} \iint_S \mathbf{B} \cdot d\mathbf S
+\end{align*}</span></p>
+<p>根据磁向量势（ magnetic vector potential ）的定义 （因为 <span class="math notranslate nohighlight">\(\nabla\cdot B =0\)</span>，因此存在向量场A使得<span class="math notranslate nohighlight">\(\nabla\times A = B\)</span>），有 <span class="math">\begin{align*}
+\Phi_B = \oint_{\partial S} \mathbf{A} \cdot d\boldsymbol{\ell}
+\end{align*}</span> 从而 <span class="math">\begin{align*}
+\mathcal{E}_C = - \frac{d}{dt} \oint_{C} \boldsymbol{A} \cdot \mathrm{d} \boldsymbol{ \ell }
+\end{align*}</span> 微分形式 <span class="math">\begin{align*}
+E= -\nabla \phi - \frac{d}{dt} \boldsymbol{A}
+\end{align*}</span></p>
+<p>上述定义并没有唯一地定义磁矢势，因为根据定义，我们可以任意地在磁势中添加无旋度分量，而不会改变观测到的磁场。因此，在选择时有一定的自由度一个 A. 这个条件被称为规范不变性。</p>
+<p>两种常见的gauge选择是：</p>
+<ol class="arabic">
+<li><p>Lorenz gauge： <span class="math">\begin{align*}
+\nabla \cdot \mathbf{A} + \frac{1}{\ c^2} \frac{\partial \phi}{\partial t} = 0
+\end{align*}</span></p></li>
+<li><dl class="simple">
+<dt>Coulomb gauge： :nbsphinx-math:<a href="#id3"><span class="problematic" id="id4">`</span></a>begin{align*}</dt><dd><p>nabla cdot mathbf{A} = 0</p>
+</dd>
+</dl>
+<p>end{align*}`</p>
+</li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, jiash.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
