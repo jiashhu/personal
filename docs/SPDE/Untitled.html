@@ -1,0 +1,339 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Phi-FEM &mdash; myresearch 0.1 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
+
+  
+    <link rel="canonical" href="https://jiashhu.github.io/personal/SPDE/Untitled.html" />
+      <script src="../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../_static/documentation_options.js?v=2709fde1"></script>
+      <script src="../_static/doctools.js?v=9a2dae69"></script>
+      <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+
+          
+          
+          <a href="../index.html" class="icon icon-home">
+            myresearch
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="UnfittedFEM.html">UnfittedFEM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ES2012MJM.html#literature">Literature</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../electromagnetic/%E7%94%B5%E7%A3%81%E5%AD%A6.html">基本概念</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">myresearch</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Phi-FEM</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../_sources/SPDE/Untitled.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Phi-FEM">
+<h1>Phi-FEM<a class="headerlink" href="#Phi-FEM" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p>Elliptic equation \begin{align*}</p></li>
+<li><p>:nbsphinx-math:<a href="#id1"><span class="problematic" id="id2">`</span></a>Delta <a href="#id3"><span class="problematic" id="id4">`</span></a>u = f \end{align*}</p></li>
+<li><p>邻域网格 <span class="math notranslate nohighlight">\(\Omega\subset\Omega_h\)</span></p></li>
+</ul>
+<ul class="simple">
+<li><p>在邻域网格上测试并分部积分 <span class="math">\begin{align*}
+(\nabla u, \nabla v_h)_{ \Omega_h} - ( \partial_n u, v_h)_{\partial \Omega_h} = (f, v_h)_{ \Omega_h}.
+\end{align*}</span></p></li>
+</ul>
+<section id="边界项的稳定化（在有限元空间中）">
+<h2>边界项的稳定化（在有限元空间中）<a class="headerlink" href="#边界项的稳定化（在有限元空间中）" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>带状区域中的分部积分，如果 <span class="math notranslate nohighlight">\(u\)</span> 是光滑函数： \begin{align*}</p></li>
+<li><p>( <span class="math">\partial</span><em>n u, v_h)</em>{<span class="math">\partial `:nbsphinx-math:</span>Omega`_h} =</p></li>
+<li><p>( <span class="math">\partial</span><em>n u, v_h)</em>{<span class="math">\partial `:nbsphinx-math:</span>Omega`}</p></li>
+<li><p>(<span class="math">\nabla `u, :nbsphinx-math:</span>nabla <cite>v_h)_{ :nbsphinx-math:</cite>Omega`_h <span class="math">\backslash `:nbsphinx-math:</span>Omega`}</p></li>
+<li><p>( <span class="math">\Delta `u, :nbsphinx-math:</span>nabla <cite>v_h)_{ :nbsphinx-math:</cite>Omega`_h <span class="math">\backslash `:nbsphinx-math:</span>Omega`} \end{align*}</p></li>
+<li><p>对于有限元函数<span class="math notranslate nohighlight">\(u\)</span>还有edge jump项 \begin{align*}</p></li>
+<li><p>( <span class="math">\partial</span><em>n u_h, v_h)</em>{<span class="math">\partial `:nbsphinx-math:</span>Omega`_h} &amp; = - ( <span class="math">\partial</span><em>n u_h, v_h)</em>{<span class="math">\partial `:nbsphinx-math:</span>Omega`}</p></li>
+<li><p>(<span class="math">\nabla `u_h, :nbsphinx-math:</span>nabla <cite>v_h)_{ :nbsphinx-math:</cite>Omega`_h <span class="math">\backslash `:nbsphinx-math:</span>Omega`}</p></li>
+<li><p>( <span class="math">\Delta `u_h, v_h)\_{ :nbsphinx-math:</span>Omega`_h <span class="math">\backslash `:nbsphinx-math:</span>Omega`}</p></li>
+<li><p><span class="math">\sum</span><em>{E:nbsphinx-math:`in `:nbsphinx-math:`mathcal{T}`</em>{ <span class="math">\Gamma</span>}}([ <span class="math">\partial</span>_n u_h], v_h)_{E}\ &amp; = R_1+ R_2 + R_3 + R_4 \end{align*}</p></li>
+<li><p>E只包括中间edge</p></li>
+</ul>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(R_1=0\)</span>，对于<span class="math notranslate nohighlight">\(v_h\)</span>在边界为0可以处理</p></li>
+<li><p><span class="math notranslate nohighlight">\(R_2\)</span>要用 <span class="math notranslate nohighlight">\(\Omega_h\)</span> 上的H1半范数吸收：有两种选择，第一是用H1范数小于1的常数部分；第二是可以直接减掉）</p></li>
+<li><p>phi-FEM的做法是 \begin{align*} | <span class="math">\nabla `u_h\|\ *{B_h}:nbsphinx-math:</span>lesssim <cite>(1- :nbsphinx-math:</cite>epsilon`) |u_h|*{ <span class="math">\Omega</span>_h} + h | <span class="math">\partial</span><em>n u_h|</em>{L<sup>2(E)}</sup>2</p></li>
+<li><p>h^2 | :nbsphinx-math:<a href="#id6"><span class="problematic" id="id7">`</span></a>Delta <a href="#id8"><span class="problematic" id="id9">`</span></a>u_h|_{T}^2 \end{align*}</p></li>
+<li><p>如果直接减掉；a的强制性证明右端的范数 只包括了 <span class="math notranslate nohighlight">\(\Omega\)</span> 上的 <span class="math notranslate nohighlight">\(H^1\)</span> 半范数；单独的这部分可能在控制延拓网格上的有限元函数上有条件数的问题。可以再利用CutFEM的高阶jump penalty来提高强制性，使得该范数没有条件数问题。</p></li>
+<li><p><span class="math notranslate nohighlight">\(R_3\)</span>要用 penalty 项</p></li>
+<li><p><span class="math notranslate nohighlight">\(R_4\)</span>要用 edge penalty项</p></li>
+</ul>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(R_3\)</span> penalty control:</p></li>
+</ul>
+<p><span class="math">\begin{align*}
+R_3 = -( \Delta u_h, v_h)_{ \Omega_h \backslash \Omega}
+\lesssim \epsilon^{-1}h^2\|\Delta u_h \|_{L^2(\Omega_h \backslash \Omega)}^2 + \epsilon h^{-2} \| v_h\|_{\Omega_h \backslash \Omega}^2
+\end{align*}</span></p>
+</section>
+<section id="R3的处理">
+<h2>R3的处理<a class="headerlink" href="#R3的处理" title="Link to this heading"></a></h2>
+<section id="Laplace加罚项">
+<h3>Laplace加罚项<a class="headerlink" href="#Laplace加罚项" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>选择增加 <span class="math notranslate nohighlight">\((\Delta u_h, \Delta v_h)_T\)</span> 这样的加罚项</p></li>
+<li><p>根据 <span class="math notranslate nohighlight">\(R_3\)</span> 的表达，这个加罚项只需要 <span class="math notranslate nohighlight">\(\sigma h^2\)</span> 的因子就可以控制住。</p></li>
+<li><p>该加罚项的相容性：必须额外利用方程以及右端项 <span class="math notranslate nohighlight">\(f\)</span>，即 <span class="math">\begin{align*}
+\sigma h^2( \Delta (u - I_h u), \Delta v_h)_{T}
+\lesssim
+\sigma h^2 h^{k-1}\| u\|_{H^{k+1}}  h^{-1}\|\nabla v_h\|_{T}
+=
+\sigma h^{k}\| u\|_{H^{k+1}}  \|\nabla v_h\|_{T}
+\end{align*}</span></p></li>
+</ul>
+</section>
+<section id="计算相容性误差的注意事项">
+<h3>计算相容性误差的注意事项<a class="headerlink" href="#计算相容性误差的注意事项" title="Link to this heading"></a></h3>
+<ul class="simple">
+<li><p>注意测试函数是谁</p></li>
+<li><p>注意左端范数的变化</p></li>
+<li><p>在上面的例子中：测试函数放大到了 <span class="math notranslate nohighlight">\(\|\nabla v_h\|_{T}\)</span>，在测试 <span class="math notranslate nohighlight">\(v_h = e_h\)</span> 时，左端有 <span class="math notranslate nohighlight">\(v_h\)</span> 的H1半范数。当然这个T在domain之外，也需要下文的方式来控制</p></li>
+</ul>
+<p>对于第二项，利用零边界以及Poincare不等式（会有domain的测度），带状区域<span class="math notranslate nohighlight">\(B_h = \Omega_h \backslash \Omega\)</span>由很多touch 边界的残缺单元T’构成，这些单元的size是h。 <span class="math">\begin{align*}
+\| v_h\|_{ \Omega_h\backslash \Omega}^2 =
+\sum \| v_h\|_{T'}^2
+\lesssim h^2 \sum \| \nabla v_h\|_{T'}^2
+= h^2 \| \nabla v_h\|_{\Omega_h\backslash \Omega}^2
+\end{align*}</span> 相当于直接在带状区域<span class="math notranslate nohighlight">\(B_h\)</span>中使用Poincare不等式，其中常数和带状区域的测度正比是<span class="math notranslate nohighlight">\(h\)</span>. (可以参见<a class="reference external" href="https://ocw.mit.edu/courses/18-152-introduction-to-partial-differential-equations-fall-2005/eb581f1f6d82b83f4562d98e2a3d7744_lecture4.pdf">Poincare</a>)</p>
+<p>因此，根据下面的估计：第一项通过取大加罚参数控制；第二项涉及到延拓区域上的H1半范数 <span class="math">\begin{align*}
+R_3 = -( \Delta u_h, v_h)_{ \Omega_h \backslash \Omega}
+\lesssim \epsilon^{-1}h^2\|\Delta u_h \|_{L^2(\Omega_h \backslash \Omega)}^2 + \epsilon \| \nabla v_h\|_{\Omega_h \backslash \Omega}^2
+\end{align*}</span></p>
+<ul class="simple">
+<li><p>直接考虑，下面的加罚项，替代 <span class="math notranslate nohighlight">\(-(\partial_t u_h, \Delta v_h)_T\)</span> <span class="math">\begin{align*}
+(\nabla \partial_t u_h, \nabla v_h)_T
+\end{align*}</span> 对应的相容性误差</p></li>
+</ul>
+<p>直接选取penalty为 <span class="math notranslate nohighlight">\((\nabla \partial_t u_h, \nabla v_h)_T - ( \partial_t u_h, \partial_n v_h)_{\partial B_h}\)</span>, this one is equivalent to :nbsphinx-math:<a href="#id11"><span class="problematic" id="id12">`</span></a>begin{align*}
+(nabla partial_t u_h, nabla v_h)_T - ( partial_t u_h, partial_n v_h)_{partial B_h}</p>
+<blockquote>
+<div><p>=
+(- partial_t u_h, Delta v_h)_T + sum_E ( partial_t u_h, [ partial_n v_h])_E</p>
+</div></blockquote>
+<p>end{align*}` 对应的相容性误差为（先代入精确解的插值看看） <span class="math">\begin{align*}
+R&=
+(\nabla \partial_t I_h u, \nabla v_h)_T
+- (\partial_t I_h u, \partial_n v_h)_{\partial B_h}
++ (\partial_t u, \Delta v_h)_T\\
+& = (\nabla \partial_t(I_h u - u), \nabla v_h)_T + \sum_{E} (\partial_t u, [ \partial_n v_h])_E
++ (\partial_t (u-I_h u), \partial_n v_h)_{\partial B_h}.
+\end{align*}</span></p>
+<ul class="simple">
+<li><p>首先这个相容性的第二项好像也不小；应该放到稳定项里面去，如果这样的话，相当于稳定项是 <span class="math">\begin{align*}
+(\nabla \partial_t u_h, \nabla v_h)_T - ( \partial_t u_h, \partial_n v_h)_{\partial B_h}
+-\sum_E (\partial_t u_h, [ \partial_n v_h])_E
+= (- \partial_t u_h, \Delta v_h)_T
+\end{align*}</span> 这样，相容性就是 \begin{align*} R&amp; = (<span class="math">\nabla `:nbsphinx-math:</span>partial`_t(I_h u - u), <span class="math">\nabla `v_h)\ *T + :nbsphinx-math:</span>sum`*{E} (<span class="math">\partial</span>_t (u-I_h u), [ <span class="math">\partial</span>_n v_h])_E</p></li>
+<li><p>(<span class="math">\partial</span>_t (u-I_h u), <span class="math">\partial</span><em>n v_h)</em>{:nbsphinx-math:<a href="#id13"><span class="problematic" id="id14">`</span></a>partial <a href="#id15"><span class="problematic" id="id16">`</span></a>B_h}. \end{align*}</p></li>
+</ul>
+<p>对应的稳定性估计是足够的 <span class="math">\begin{align*}
+-h^2\sum_E (\partial_t e_h, [ \partial_n v_h])_E
+&\lesssim h^2\sum_E \| \partial_t e_h \|_{L^2(E)} \| [ \partial_n v_h]\|_{L^2(E)}\\
+&\lesssim \sum_E  h^{3}\| \partial_t e_h \|_{L^2(E)}^2 + h \| [ \partial_n v_h]\|_{L^2(E)}^2\\
+\end{align*}</span></p>
+<ul class="simple">
+<li><p>如果<span class="math notranslate nohighlight">\(\partial B_h\)</span>的项没有放到稳定项里面，那就会在误差项中出现。这样，相容性就是 <span class="math notranslate nohighlight">\(h^2R\)</span> \begin{align*} R&amp; = (<span class="math">\nabla `:nbsphinx-math:</span>partial`_t(I_h u - u), <span class="math">\nabla `v_h)\ *T + :nbsphinx-math:</span>sum`*{E} (<span class="math">\partial</span>_t (u-I_h u), [ <span class="math">\partial</span>_n v_h])_E</p></li>
+<li><p>(<span class="math">\partial</span>_t u, <span class="math">\partial</span><em>n v_h)</em>{:nbsphinx-math:<a href="#id17"><span class="problematic" id="id18">`</span></a>partial <a href="#id19"><span class="problematic" id="id20">`</span></a>B_h}. \end{align*}</p></li>
+</ul>
+<p>Euler-Lagrage Remapping cut-FEM</p>
+<p>用Ritz投影来处理压力L2的不稳定性</p>
+<p>这种全欧拉时间步进方案最初在 [33] 中针对对流-扩散问题提出并进行了分析，随后在 [34] 中应用于两相流问题，在 [35] 中用于处理带有浸没移动物体的流体问题。</p>
+<p>类似的非拟合方法采用时空单元处理流体问题，见 [36]。</p>
+<p>针对变形域中的 Stokes 和线性化 Navier-Stokes 方程的扩展研究分别在 [37–39] 中进行了分析，使用非拟合 Taylor-Hood 有限元方法（任意阶）证明了速度的能量范数和压力的缩放 (L<sup>2(H</sup>1)) 范数的最优收敛性。</p>
+<p>尽管这一方法有坚实的数学基础，但本文发现现有方法的变体在水动力力上的时间伪振荡问题仍未完全解决。</p>
+<p>这些伪振荡虽然随着网格加密快速减小，但即便在体积和质量守恒严格满足的情况下仍然存在——这与常见假设（即守恒原理的失效是主要原因）相悖。</p>
+<p>此外，与早期研究一致，我们观察到，当时间步长减小时，伪振荡的幅度会增加，尽管时间平均振幅保持有界。这一行为表明，该方法在不同范数下的数值稳定性界限可能有所不同。我们认为，控制导致浸没边界上的伪水动力力的压力伪振荡，需要一种在 (L<sup>:nbsphinx-math:</sup>infty`(H`1))-范数下对压力无条件稳定的离散化方法。</p>
+<p>而传统有限元分析通常仅评估 (L<sup>2(L</sup>2))-范数下的压力稳定性，这仅保证了压力的时间平均稳定性。在合理假设下，(L<sup>:nbsphinx-math:</sup>infty`(H`1))-压力稳定性可以归结为 (L<sup>:nbsphinx-math:</sup>infty`(L`2))-压力稳定性，两者均衡指瞬时压力的稳定性。我们的数值实验表明，目前所有可用的非拟合有限元方法变体在 (L<sup>2(L</sup>2))-范数下均表现出无条件稳定性，但当时间步长趋近于零且空间网格固定时，压力在 (L<sup>:nbsphinx-math:</sup>infty`(L`2))-范数下发散。</p>
+<p>我们重新审视了稳态域上的有限元方法分析，以识别实现 (L<sup>:nbsphinx-math:</sup>infty`(L`2))-压力稳定性的关键推论，并解释这些推论为何在移动边界情况下失效。通过明确问题所在，我们提出了一种方法变体，能够确保瞬时压力的无条件稳定性，从而实际上抑制了压力伪振荡，并消除了对特定 CFL 数的依赖。方法的关键修改在于将 ghost-penalty 项重新定义为全局形式，而非此前建议的仅限于边界周围的窄带区域。</p>
+<p>除此之外，本文还研究了流体粘性、几何近似、质量守恒、离散化与稳定化参数以及有限元空间选择对窄带浸没边界有限元方法中压力时间伪振荡的发生及幅度的影响。结果表明，其中一些参数对压力的时间稳定性几乎没有影响，而另一些参数的变化则可以将“传统”变体中的伪振荡降低至低于物理显著性的水平。</p>
+<p>除了上述发现外，本文还研究了流体粘性、几何近似、质量守恒、离散化与稳定化参数以及有限元空间的选择对窄带浸没边界有限元方法中伪压力时间振荡的发生及幅度的影响。结果表明，其中一些参数对压力时间稳定性几乎没有影响，而另一些参数的调整可以将“传统”方法中的伪振荡降低至低于物理显著性的水平。</p>
+<p>本文其余部分的结构如下：第 2 节简要介绍了所研究的方程；</p>
+<ul class="simple">
+<li><p>第 3 节描述了解决问题的非拟合欧拉时间步进方法，并总结了关于该方法的主要已有结果。文中还提出了几种稳定化变体，包括一种带有全局 ghost-penalty 项的新方法。</p></li>
+<li><p>第 4 节从数学角度分析了边界力伪时间振荡的问题。</p></li>
+<li><p>第 5 节展示了我们方法的数值结果，包括对方法在多种相关范数下的稳定性和收敛性研究。</p></li>
+</ul>
+<p>此外，我们考察了该方法在文献中两个具有挑战性的示例场景中的表现，这些场景被扩展为本文所考虑的 Navier-Stokes 设置。在单独的第 5.5 节中，讨论了几种相关非拟合有限元方法的数值结果。最后，第 6 节给出了若干总结性评述。</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="3.4.-几何近似">
+<h2>3.4. 几何近似<a class="headerlink" href="#3.4.-几何近似" title="Link to this heading"></a></h2>
+<p>将几何与计算网格分离会带来准确近似几何的挑战，这需要在被截断的单元上使用鲁棒的数值积分技术。文献中提出了多种方法，例如 [40, 48–52]。</p>
+<p>在 cutFEM 方法中，标准做法是使用水平集函数的分段线性插值。在单纯形上，这种方法通过将被截断的单元划分为子单纯形并应用标准高斯求积规则实现 [25]。然而，这种分段线性近似会引入几何误差： [ <span class="math">\text{dist}`(:nbsphinx-math:</span>Omega`, <span class="math">\Omega</span>_h) :nbsphinx-math:<a href="#id22"><span class="problematic" id="id23">`</span></a>lesssim <a href="#id24"><span class="problematic" id="id25">`</span></a>h^2. ] 对于使用 Taylor–Hood 元的细网格，当 ( k = 2 ) 时，这种几何误差主导 ( L^2 ) 速度误差；对于更高阶元，它会影响 ( L^2 ) 和 ( H^1 ) 速度误差以及 ( L^2 ) 压力误差。</p>
+<p>等参非拟合有限元方法 [40]（在移动域场景中已分析 [41]）将几何误差降低到 ( O(h^{k+1}) )。该方法通过计算一个小的网格变形 (<span class="math">\Theta</span>_h)，将分段线性水平集映射到精确水平集的高阶近似。在移动域场景中，关键挑战在于将相对于 (<span class="math">\Theta`^{n-1}) 计算出的速度 (u^{n-1}) 投影到变形 (:nbsphinx-math:</span>Theta`^n) 上，以保持最优收敛性 [41]。</p>
+<p>另一种更简单的方法是细分被截断单元用于积分，并在这些细分单元上应用分段线性水平集近似。虽然这种方法可以减少几何误差，但随着网格精度提高，需要更多细分以保持最优收敛性，这在计算上变得不可行。然而，它对于隔离纯几何近似误差（区别于等参方法所需的投影）仍有一定的应用价值。</p>
+</section>
+<hr class="docutils" />
+<section id="3.5.-方法性质">
+<h2>3.5. 方法性质<a class="headerlink" href="#3.5.-方法性质" title="Link to this heading"></a></h2>
+<p>我们总结了所提出方法的相关关键结果。针对演化域中的（线性化）不可压缩流体问题，Taylor–Hood 版本及等阶非拟合有限元方法最近在 [38, 39] 和 [37] 中进行了分析。</p>
+<p>Taylor–Hood 方法的最佳误差估计来自 [39, 定理 4.8]，针对公式 (9) 的 BDF1 版本（其中 (c) 项被线性化，这些简化对于讨论并不重要）。结果如下：假设网格 (<span class="math">\mathcal{T}</span><em>h) 是准均匀的，且网格大小与时间步长满足
+[ c_0 h^2 :nbsphinx-math:`leq `:nbsphinx-math:`Delta `t :nbsphinx-math:`leq `C_0 h, ] 其中 (c_0, C_0) 是与离散参数和域运动无关的正常数。那么，对于 Taylor–Hood (P_k–P</em>{k-1}) 非拟合有限元方法，有以下误差界： [ <span class="math">\max</span><em>{1 :nbsphinx-math:`leq `n :nbsphinx-math:`leq `N} |u(t^n) - un|2</em>{L<sup>2(:nbsphinx-math:</sup>Omega`h)} + <span class="math">\Delta `t :nbsphinx-math:</span>sum`{n=1}`N |:nbsphinx-math:<cite>nabla`(u(t^n) -
+u:sup:`n)|</cite>2_{L^2(<span class="math">\Omega</span>_h)}</p>
+<ul class="simple">
+<li><p><span class="math">\Delta `t :nbsphinx-math:</span>sum`<em>{n=1}^N h^2 |:nbsphinx-math:`nabla`(p(t^n) - pn)|2</em>{L^2(<span class="math">\Omega</span>_h)} <span class="math">\leq `C(\|:nbsphinx-math:</span>Delta <cite>t| + h^q + h:sup:`k)</cite>2, ] 其中 (C) 可能依赖于 (u, p)（即 (2)–(3) 的解），但不依赖于背景网格的离散参数或域运动；(q) 是几何近似的阶数。</p></li>
+</ul>
+<div class="line-block">
+<div class="line">对于等阶 (P_k–P_k) 元，[37, 定理 5.3] 针对演化域中的 Stokes 问题，证明了在假设 (13) 下与 (14) 类似的估计。该文还对压力误差的 (L^2)-范数给出了一个（次优的）估计：</div>
+<div class="line">[ |:nbsphinx-math:<cite>Delta `t|^2 :nbsphinx-math:</cite>sum`<em>{n=1}^N |p(t^n) - p_hn|2</em>{L^2(<span class="math">\Omega</span>_h^n)} <span class="math">\leq `C(\|:nbsphinx-math:</span>Delta <cite>t| + h:sup:`m)</cite>2. ] 由于这项研究未量化几何误差，因此 (15) 中没有 (h^q) 项。</div>
+</div>
+<p>从 (13) 可以看出，防止时间步长趋于零的限制在现有分析中也存在。然而，即使有此限制，当 (h, <span class="math">\Delta `t :nbsphinx-math:</span>to 0`) 时，压力误差界 (14)–(15) 仍然不是最优的。文献 [37–39] 的作者指出，阻碍实现最优阶误差分析的关键障碍是：时间步 (n) 中速度 (u^{n-1}) 的弱散度自由（weakly divergence-free）性质的丧失。</p>
+<p>phi-fem的interface问题</p>
+<ul class="simple">
+<li><p>interface上 [u] and [a:nbsphinx-math:<cite>nabla `u:nbsphinx-math:</cite>cdot <a href="#id27"><span class="problematic" id="id28">`</span></a>n] = 0</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<p>在稳定性项中， <span class="math notranslate nohighlight">\(\partial_t u_h\)</span>需要替换成 <span class="math notranslate nohighlight">\(\partial_t e_h\)</span>。然后 <span class="math notranslate nohighlight">\((\partial_t u_h, \partial_n v_h)_{\partial B_h}\)</span> 对应的项就是。通过迹不等式可以得到 <span class="math">\begin{align*}
+h^2 ( \partial_t e_h, \partial_n v_h)_E
+\lesssim \| \partial_t e_n\|_T \| v_h\|_T
+\end{align*}</span></p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2024, jiash.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

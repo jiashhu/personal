@@ -12,6 +12,7 @@ Welcome to ComputMat's documentation!
    
    SPDE/UnfittedFEM.ipynb
    SPDE/ES2012MJM.md
+   electromagnetic/电磁学.ipynb
 
 Indices and tables
 ==================

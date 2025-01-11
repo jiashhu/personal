@@ -7,7 +7,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>基本概念 &mdash; myresearch 0.1 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../_static/css/theme.css?v=e59714d7" />
       <link rel="stylesheet" type="text/css" href="../_static/nbsphinx-code-cells.css?v=2aa19091" />
 
@@ -23,7 +23,8 @@
       <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
-    <link rel="search" title="Search" href="../search.html" /> 
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="An ALE ESFEM for solving PDEs on evolving surfaces" href="../SPDE/ES2012MJM.html" /> 
 </head>
 
 <body class="wy-body-for-nav"> 
@@ -46,10 +47,14 @@
 </div>
         </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
               <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="../SPDE/UnfittedFEM.html">UnfittedFEM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../SPDE/ES2012MJM.html">An ALE ESFEM for solving PDEs on evolving surfaces</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../SPDE/ES2012MJM.html#literature">Literature</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">基本概念</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#电动势">电动势</a></li>
+</ul>
+</li>
 </ul>
 
         </div>
@@ -123,13 +128,82 @@ E= -\nabla \phi - \frac{d}{dt} \boldsymbol{A}
 </pre></div>
 </div>
 </div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<p>Maxwell方程 <span class="math">\begin{align}
+& \partial_t D = \nabla \times H\\
+& \partial_t H = -\nabla \times E = -\nabla \times ( \epsilon^{-1} D)
+\end{align}</span> From the relation <span class="math">\begin{align*}
+|D| = (1+ |E|^2)|E|.
+\end{align*}</span></p>
+<p><span class="math notranslate nohighlight">\(|E|\)</span> 可以表示成 <span class="math notranslate nohighlight">\(|D|^2\)</span> 的单调函数。类似的， <span class="math">\begin{align*}
+\epsilon^{-1} = (1+|E|^2)^{-1} := 1+ \phi( |D|^2).
+\end{align*}</span> 其中的 <span class="math notranslate nohighlight">\(\phi\)</span> 是一个单调减函数。<span class="math notranslate nohighlight">\(\phi(0) = 0\)</span>，光滑。Then <span class="math">\begin{align}
+& \partial_t D = \nabla \times H\\
+& \partial_t H = -\nabla \times D -\nabla \times ( \phi(|D|^2)D)
+\end{align}</span> In matrix form <span class="math">\begin{align*}
+\partial_t \begin{pmatrix} D\\ H\end{pmatrix}
+= \begin{pmatrix} 0& \nabla \times \\
+-\nabla\times & 0\end{pmatrix}
+\begin{pmatrix} D\\ H\end{pmatrix}
++ \begin{pmatrix} 0 \\ -\nabla \times ( \phi(|D|^2)D)\end{pmatrix},\quad L = \begin{pmatrix} 0& \nabla \times \\
+-\nabla\times & 0\end{pmatrix}
+\end{align*}</span></p>
+<p>Some basic formulas <span class="math">\begin{align*}
+\nabla \times=\left[\begin{array}{ccc}
+0 & -\partial_z & {\partial_y} \\
+{\partial_z} & 0 & -{\partial_x} \\
+-\partial_y & \partial_x & 0
+\end{array}\right]
+\end{align*}</span></p>
+<p><span class="math">\begin{align*}
+\nabla \times\left(\phi\left(|D|^2\right) D\right)
+&=\nabla \phi\left(|D|^2\right) \times D+\phi\left(|D|^2\right)(\nabla \times D)\\
+&= 2\phi'(|D|^2) ((\nabla D)D) \times D+\phi\left(|D|^2\right)(\nabla \times D)\\
+\end{align*}</span></p>
+<p>Under Fourier transform (对向量的每个分量都是用Fourier变换), we have <span class="math">\begin{align*}
+{\mathcal{F}} (\nabla \times u) =
+\left[\begin{array}{ccc}
+0 & ik_3 & -ik_2 \\
+-ik_3 & 0 & ik_1 \\
+ik_2 & -ik_1 & 0
+\end{array}\right]
+\hat u= (-ik)\times \hat u
+\end{align*}</span></p>
+<p><span class="math">\begin{align*}
+e^{t\nabla \times} u = e^{t ik\times } \hat u
+\end{align*}</span> since <span class="math notranslate nohighlight">\(k\times\)</span> corresponds to a skew-symmetric matrix, then <span class="math notranslate nohighlight">\(e^{t ik\times }\)</span> is an isometry. The same holds for <span class="math notranslate nohighlight">\(e^{itL}\)</span> 至少对于<span class="math notranslate nohighlight">\(L^2\)</span>范数来说</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</div>
 </section>
 </section>
 
 
            </div>
           </div>
-          <footer>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../SPDE/ES2012MJM.html" class="btn btn-neutral float-left" title="An ALE ESFEM for solving PDEs on evolving surfaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
 
   <hr/>
 
